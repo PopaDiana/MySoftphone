@@ -17,7 +17,8 @@
                                      Background="Transparent"
                                      VerticalContentAlignment="Center"
                                      Padding="3"
-                                     Foreground="#CFCFCF"
+                                     Foreground="White"
+                                     FontSize="14"
                                      x:Name="TypeBox"/>
                             <TextBlock IsHitTestVisible="False"
                                        Text="Type..."

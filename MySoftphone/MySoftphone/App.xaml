@@ -13,6 +13,8 @@
                 <ResourceDictionary Source="UI/Themes/ButtonTheme.xaml"/>
                 <ResourceDictionary Source="UI/Themes/DialpadButtonTheme.xaml"/>
                 <ResourceDictionary Source="UI/Themes/ComboBoxTheme.xaml"/>
+                <ResourceDictionary Source="UI/Themes/TabItemTheme.xaml"/>
+                <ResourceDictionary Source="UI/Themes/GridViewTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:SipRegistrationViewModel}">

@@ -10,71 +10,71 @@
 
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TabControl Height="220" HorizontalAlignment="Left" Margin="25,10,0,0" Name="tabControl1" VerticalAlignment="Top" Width="400">
+            <TabControl Height="240" HorizontalAlignment="Left" Margin="25,15,0,0" Name="tabControl1" VerticalAlignment="Top" Width="420">
                 <TabItem Header="Active Calls">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="160"/>
+                            <RowDefinition Height="180"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ListView x:Name="activeCallsLV" Margin="1,1,1,1" Height="150" VerticalAlignment="Top" Grid.Row="0">
+                        <ListView x:Name="activeCallsLV" Height="180" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
-                                <GridView>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
                                     <GridViewColumn Width="110" Header="Caller Name"/>
                                     <GridViewColumn Width="110" Header="Phone number"/>
-                                    <GridViewColumn Width="90" Header="Direction"/>
+                                    <GridViewColumn Width="88" Header="Direction"/>
                                     <GridViewColumn Width="80" Header="Call State"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
-                            <Button Margin="2,0,5,5" Content="Answer" Width="60" Style="{StaticResource MyButtonTheme}"/>
-                            <Button Margin="2,0,5,5" Content="Hang up" Width="60" Style="{StaticResource MyButtonTheme}"/>
-                            <Button Margin="2,0,5,5" Content="Reject" Width="60" Style="{StaticResource MyButtonTheme}"/>
-                            <Button Margin="2,0,5,5" Content="Transfer" Width="60" Style="{StaticResource MyButtonTheme}"/>
+                            <Button Margin="2,2,5,1" Content="Answer" Width="60" Style="{StaticResource MyButtonTheme}"/>
+                            <Button Margin="2,2,5,1" Content="Hang up" Width="60" Style="{StaticResource MyButtonTheme}"/>
+                            <Button Margin="2,2,5,1" Content="Reject" Width="60" Style="{StaticResource MyButtonTheme}"/>
+                            <Button Margin="2,2,5,1" Content="Transfer" Width="60" Style="{StaticResource MyButtonTheme}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Agenda">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="140"/>
+                            <RowDefinition Height="180"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ListView x:Name="agendaLV" Margin="1,1,1,1" Height="130" VerticalAlignment="Top" Grid.Row="0">
+                        <ListView x:Name="agendaLV" Height="180" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
-                                <GridView>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
                                     <GridViewColumn Width="150" Header="Caller Name"/>
                                     <GridViewColumn Width="150" Header="Phone number"/>
-                                    <GridViewColumn Width="90" Header="Direction"/>
+                                    <GridViewColumn Width="100" Header="Direction"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
-                            <Button Margin="2,0,5,5" Content="Dial" Width="60" Style="{StaticResource MyButtonTheme}"/>
-                            <Button Margin="225,0,5,5" Content="Delete contact" Width="100" Style="{StaticResource MyButtonTheme}"/>
+                            <Button Margin="2,2,5,2" Content="Dial" Width="60" Style="{StaticResource MyButtonTheme}"/>
+                            <Button Margin="233,2,5,2" Content="Delete contact" Width="100" Style="{StaticResource MyButtonTheme}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Call Log">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="140"/>
+                            <RowDefinition Height="180"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ListView x:Name="callLogLV" Margin="1,1,1,1" Height="130" VerticalAlignment="Top" Grid.Row="0">
+                        <ListView x:Name="callLogLV" Height="180" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
-                                <GridView>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
                                     <GridViewColumn Width="100" Header="Caller Name"/>
-                                    <GridViewColumn Width="90" Header="Direction"/>
+                                    <GridViewColumn Width="91" Header="Direction"/>
                                     <GridViewColumn Width="100" Header="Date"/>
                                     <GridViewColumn Width="100" Header="Duration"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
-                            <Button Margin="2,0,5,5" Content="Dial" Width="60" Style="{StaticResource MyButtonTheme}"/>
-                            <Button Margin="225,0,5,5" Content="Clear logs" Width="100" Style="{StaticResource MyButtonTheme}"/>
+                            <Button Margin="2,2,5,2" Content="Dial" Width="60" Style="{StaticResource MyButtonTheme}"/>
+                            <Button Margin="225,2,5,2" Content="Clear logs" Width="100" Style="{StaticResource MyButtonTheme}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
@@ -128,11 +128,11 @@
             </GroupBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="20,10,20,0">
-            <GroupBox Header="My Camera"  Margin="30,10,10,10" Padding="0" Foreground="White" FontSize="13">
-                <video:VideoViewerWPF Width="300" Height="135" HorizontalAlignment="Center" Margin="4,7,0,0" Name="localVideoViewer" VerticalAlignment="Center" />
+            <GroupBox Header="My Camera"  Margin="10,10,10,10" Padding="0" Foreground="White" FontSize="13">
+                <video:VideoViewerWPF Width="320" Height="135" HorizontalAlignment="Center" Margin="4,7,0,0" Name="localVideoViewer" VerticalAlignment="Center" />
             </GroupBox>
-            <GroupBox Header="Caller Camera"  Margin="20,10,10,10" Padding="0" Foreground="White" FontSize="13">
-                <video:VideoViewerWPF Width="300" Height="200" HorizontalAlignment="Center" Margin="4,7,0,0" Name="remoteVideoViewer" VerticalAlignment="Center" />
+            <GroupBox Header="Caller Camera"  Margin="5,10,10,10" Padding="0" Foreground="White" FontSize="13">
+                <video:VideoViewerWPF Width="320" Height="200" HorizontalAlignment="Center" Margin="4,7,0,0" Name="remoteVideoViewer" VerticalAlignment="Center" />
             </GroupBox>
         </StackPanel>
     </StackPanel>
