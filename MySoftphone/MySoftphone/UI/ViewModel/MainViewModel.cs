@@ -10,8 +10,13 @@ namespace MySoftphone.UI.ViewModel
 {
     class MainViewModel : ObservableObject
     {
+        #region Private fields
         private object currentView;
 
+        private RelayCommand someCommand;
+        #endregion
+
+        #region Properties
         public SipRegistrationViewModel SipRegVM { get; set; }
 
         public AudioCallViewModel AudioCallVM { get; set; }
@@ -30,8 +35,22 @@ namespace MySoftphone.UI.ViewModel
 
         public RelayCommand AudioCallViewCommand { get; set; }
 
-        public RelayCommand DragWindow { get; set; }
+        public RelayCommand SomeCommand 
+        { 
+            get
+            {
+                if(someCommand == null)
+                {
+                    someCommand = new RelayCommand(param => this.DragWindowOnMouseDrag(), null);
+                }
 
+                return someCommand;
+            }
+        }
+
+        #endregion
+
+        #region Constructor
         public MainViewModel()
         {
             SipRegVM = new SipRegistrationViewModel();
@@ -49,5 +68,15 @@ namespace MySoftphone.UI.ViewModel
             });
 
         }
+        #endregion
+
+        #region Private methods
+
+        private void DragWindowOnMouseDrag()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

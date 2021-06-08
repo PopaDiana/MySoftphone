@@ -24,5 +24,22 @@ namespace MySoftphone
         {
             InitializeComponent();
         }
+
+
+
+        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs eventArgs)
+        {
+            this.DragMove();
+        }
+
+        private void OnMinimizeWindow(object sender, MouseButtonEventArgs eventArgs)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void OnCloseWindow(object sender, MouseButtonEventArgs eventArgs)
+        {
+            this.Close();
+        }
     }
 }

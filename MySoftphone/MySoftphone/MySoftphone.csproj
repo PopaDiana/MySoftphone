@@ -156,7 +156,7 @@
     <Folder Include="UI\Model\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\icon.png" />
+    <Resource Include="Images\icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

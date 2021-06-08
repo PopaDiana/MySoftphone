@@ -105,21 +105,21 @@
                          Style="{StaticResource MyTextboxStyle}" 
                         Grid.ColumnSpan="3"/>
                     
-                    <Button Margin="1,1,1,1" Content="1" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="0"/>
-                    <Button Margin="1,1,1,1" Content="2" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="1"/>
-                    <Button Margin="1,1,1,1" Content="3" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="2"/>
+                    <Button Margin="1,1,1,1" Content="1" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="0"/>
+                    <Button Margin="1,1,1,1" Content="2" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="1"/>
+                    <Button Margin="1,1,1,1" Content="3" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="2"/>
 
-                    <Button Margin="1,1,1,1" Content="4" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="0"/>
-                    <Button Margin="1,1,1,1" Content="5" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="1"/>
-                    <Button Margin="1,1,1,1" Content="6" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="2"/>
+                    <Button Margin="1,1,1,1" Content="4" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="0"/>
+                    <Button Margin="1,1,1,1" Content="5" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="1"/>
+                    <Button Margin="1,1,1,1" Content="6" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="2"/>
 
-                    <Button Margin="1,1,1,1" Content="7" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="0"/>
-                    <Button Margin="1,1,1,1" Content="8" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="1"/>
-                    <Button Margin="1,1,1,1" Content="9" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="2"/>
+                    <Button Margin="1,1,1,1" Content="7"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="0"/>
+                    <Button Margin="1,1,1,1" Content="8"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="1"/>
+                    <Button Margin="1,1,1,1" Content="9" Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="2"/>
 
-                    <Button Margin="1,1,1,1" Content="*" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="0"/>
-                    <Button Margin="1,1,1,1" Content="0" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="1"/>
-                    <Button Margin="1,1,1,1" Content="#" Width="60" Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="2"/>
+                    <Button Margin="1,1,1,1" Content="*"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="0"/>
+                    <Button Margin="1,1,1,1" Content="0"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="1"/>
+                    <Button Margin="1,1,1,1" Content="#"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="2"/>
                     
                     <Button Margin="1,1,1,1" Content="Audio Call" Width="70" Height="25" Style="{StaticResource MyButtonTheme}" Grid.Row="5" Grid.Column="0"/>
                     <Button Margin="1,1,1,1" Content="Video Call" Width="70" Height="25" Style="{StaticResource MyButtonTheme}" Grid.Row="5" Grid.Column="1"/>
