@@ -17,6 +17,14 @@ namespace MySoftphone.UI.ViewModel
         private Agenda agenda;
 
         private CallLog callLog;
+
+        private ObservableCollection<Caller> agendaItems;
+
+        private Caller selectedAgendaEntry;
+
+        private ObservableCollection<CallLogItem> callLogItems;
+
+        private CallLogItem selectedLogEntry;
         #endregion
 
         #region Properties
@@ -33,19 +41,71 @@ namespace MySoftphone.UI.ViewModel
             }
         }
 
-        public List<CallLogItem> CallLogItems {get;set;}
+        public ObservableCollection<CallLogItem> CallLogItems
+        {
+            get
+            {
+                return this.callLogItems;
+            }
+            set
+            {
+                this.callLogItems = value;
+                OnPropertyChanged("CallLogItems");
+            }
+        }
 
-        public List<Caller> AgendaItems { get; set; }
+        public ObservableCollection<Caller> AgendaItems
+        {
+            get
+            {
+                return this.agendaItems;
+            }
+            set
+            {
+                this.agendaItems = value;
+                OnPropertyChanged("AgendaItems");
+            }
+        }
+
+        public Caller SelectedAgendaEntry
+        {
+            get
+            {
+                return this.selectedAgendaEntry;
+            }
+            set
+            {
+                this.selectedAgendaEntry = value;
+                OnPropertyChanged("SelectedAgendaEntry");
+            }
+        }
+
+        public CallLogItem SelectedLogEntry
+        {
+            get
+            {
+                return this.selectedLogEntry;
+            }
+            set
+            {
+                this.selectedLogEntry = value;
+                OnPropertyChanged("SelectedLogEntry");
+            }
+        }
         #endregion
 
         #region Constructors
         public AudioCallViewModel()
         {
             agenda = new Agenda();
-            AgendaItems = agenda.GetAgenda();
+            AgendaItems = new ObservableCollection<Caller>()
+            {
+                new Caller("Dia","098"),
+                new Caller("Ana","990")
+            };//new ObservableCollection<Caller>(agenda.GetAgenda());
 
             callLog = new CallLog();
-            CallLogItems = callLog.GetCallLog();
+            CallLogItems = new ObservableCollection<CallLogItem> ( callLog.GetCallLog());
 
             this.TypedPhoneNumber = string.Empty;
 
@@ -145,7 +205,12 @@ namespace MySoftphone.UI.ViewModel
 
         private void DeleteContactPressed()
         {
-            //throw new NotImplementedException();
+            if(this.SelectedAgendaEntry != null)
+            {
+                this.agenda.DeleteFromAgenda(this.SelectedAgendaEntry);
+                this.AgendaItems.Remove(this.SelectedAgendaEntry);
+                this.SelectedAgendaEntry = null;
+            } 
         }
 
         private void DialPressed()
@@ -155,7 +220,7 @@ namespace MySoftphone.UI.ViewModel
 
         private void ClearLogsPressed()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         #endregion
     }

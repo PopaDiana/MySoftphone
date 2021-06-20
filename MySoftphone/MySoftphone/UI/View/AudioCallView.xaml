@@ -42,12 +42,12 @@
                             <RowDefinition Height="180"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ListView x:Name="agendaLV" Height="180" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
+                        <ListView x:Name="agendaLV" ItemsSource="{Binding AgendaItems, Mode=TwoWay}" SelectedItem="{Binding SelectedAgendaEntry}" Height="180" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
-                                    <GridViewColumn Width="150" Header="Caller Name"/>
-                                    <GridViewColumn Width="150" Header="Phone number"/>
-                                    <GridViewColumn Width="100" Header="Direction"/>
+                                    <GridViewColumn Width="150" Header="Caller Name" DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Width="150" Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
+                                    <!--<GridViewColumn Width="100" Header="Direction"/>-->
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -63,7 +63,7 @@
                             <RowDefinition Height="180"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ListView x:Name="callLogLV" ItemsSource="{Binding CallLogItems}" Height="180" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
+                        <ListView x:Name="callLogLV" ItemsSource="{Binding CallLogItems, Mode=TwoWay}" SelectedItem="{Binding SelectedLogEntry}" Height="180" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
                                     <GridViewColumn Width="100" Header="Caller Name" DisplayMemberBinding="{Binding CallerName}"/>

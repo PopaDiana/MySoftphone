@@ -15,6 +15,8 @@ namespace MySoftphone.UI.Model
 
         public CallLog()
         {
+            File.WriteAllText(jsonFile, "");
+
             this.callLogList = this.DeserializeCallLog();
         }
 

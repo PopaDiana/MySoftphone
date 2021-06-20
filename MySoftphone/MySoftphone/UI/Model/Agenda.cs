@@ -11,10 +11,11 @@ namespace MySoftphone.UI.Model
     class Agenda
     {
         private string jsonFile = "Agenda.json";
-        private List<Caller> callersList {get;set;}
+        private List<Caller> callersList { get; set; }
 
         public Agenda()
         {
+            File.WriteAllText(jsonFile, "");
             this.callersList = this.DeserializeAgenda();
         }
 
@@ -32,6 +33,18 @@ namespace MySoftphone.UI.Model
             this.SerializeAgenda();
         }
 
+        public void DeleteFromAgenda(Caller caller)
+        {
+            if (this.callersList != null)
+            {
+                if (this.callersList.Contains(caller))
+                {
+                    this.callersList.Remove(caller);
+                    this.SerializeAgenda();
+                }
+            }
+        }
+
         private void SerializeAgenda()
         {
             string jsonString = JsonConvert.SerializeObject(this.callersList);
@@ -41,7 +54,7 @@ namespace MySoftphone.UI.Model
         private List<Caller> DeserializeAgenda()
         {
             string fileContent = File.ReadAllText(jsonFile);
-            List<Caller> jsonList = 
+            List<Caller> jsonList =
                 JsonConvert.DeserializeObject<List<Caller>>(fileContent);
 
             if (jsonList == null)
