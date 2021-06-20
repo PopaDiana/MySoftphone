@@ -1,5 +1,4 @@
-﻿using Ozeki.VoIP;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace MySoftphone.UI.ViewModel
