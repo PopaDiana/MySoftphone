@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,12 +11,23 @@ namespace MySoftphone.UI.Model
 {
     class Agenda
     {
-        private string jsonFile = "Agenda.json";
+        private string jsonFileName = "Agenda.json";
+
+        private string dir = "JsonFiles";
+
+        private string filePath;
+
         private List<Caller> callersList { get; set; }
 
         public Agenda()
         {
-            File.WriteAllText(jsonFile, "");
+            Directory.CreateDirectory(dir);
+
+            filePath = Path.Combine(dir, jsonFileName);
+
+            if (!File.Exists(filePath))
+                File.WriteAllText(filePath, string.Empty);
+
             this.callersList = this.DeserializeAgenda();
         }
 
@@ -45,21 +57,30 @@ namespace MySoftphone.UI.Model
             }
         }
 
+        internal void UpdateAgenda(List<Caller> agendaItems)
+        {
+            this.callersList.Clear();
+            this.callersList.AddRange(agendaItems);
+            this.SerializeAgenda();
+        }
+
         private void SerializeAgenda()
         {
+            this.callersList.OrderBy(c => c.Name);
             string jsonString = JsonConvert.SerializeObject(this.callersList);
-            File.WriteAllText(jsonFile, jsonString);
+            File.WriteAllText(filePath, jsonString);
         }
 
         private List<Caller> DeserializeAgenda()
         {
-            string fileContent = File.ReadAllText(jsonFile);
+            string fileContent = File.ReadAllText(filePath);
             List<Caller> jsonList =
                 JsonConvert.DeserializeObject<List<Caller>>(fileContent);
 
             if (jsonList == null)
                 return new List<Caller>();
 
+            jsonList.OrderBy(c => c.Name);
             return jsonList;
         }
     }

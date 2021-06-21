@@ -98,14 +98,25 @@ namespace MySoftphone.UI.ViewModel
         public AudioCallViewModel()
         {
             agenda = new Agenda();
-            AgendaItems = new ObservableCollection<Caller>()
-            {
-                new Caller("Dia","098"),
-                new Caller("Ana","990")
-            };//new ObservableCollection<Caller>(agenda.GetAgenda());
+            AgendaItems =
+            new ObservableCollection<Caller>(agenda.GetAgenda());
+            //new ObservableCollection<Caller>()
+            //{
+            //    new Caller("Dia","098"),
+            //    new Caller("Ana","990"),
+            //    new Caller("John", "0744678"),
+            //    new Caller("Mike", "009537")
+            //};
 
             callLog = new CallLog();
-            CallLogItems = new ObservableCollection<CallLogItem> ( callLog.GetCallLog());
+            CallLogItems = new ObservableCollection<CallLogItem>()
+            {
+                new CallLogItem("Dia", CallDirectionEnum.Incoming, new DateTime(2021,6,20,20,13,10), new TimeSpan(0,3,20)),
+                new CallLogItem("Xyz", CallDirectionEnum.Outgoing, new DateTime(2021,5,2,20,13,10), new TimeSpan(0,1,9)),
+                new CallLogItem("Jack", CallDirectionEnum.Incoming, new DateTime(2021,2,12,15,13,10), new TimeSpan(0,3,20))
+            };
+
+                //new ObservableCollection<CallLogItem> ( callLog.GetCallLog());
 
             this.TypedPhoneNumber = string.Empty;
 
@@ -205,11 +216,11 @@ namespace MySoftphone.UI.ViewModel
 
         private void DeleteContactPressed()
         {
-            if(this.SelectedAgendaEntry != null)
+            if(this.SelectedAgendaEntry != null && this.AgendaItems != null)
             {
-                this.agenda.DeleteFromAgenda(this.SelectedAgendaEntry);
                 this.AgendaItems.Remove(this.SelectedAgendaEntry);
                 this.SelectedAgendaEntry = null;
+                this.agenda.UpdateAgenda(this.AgendaItems.ToList());
             } 
         }
 
@@ -220,7 +231,11 @@ namespace MySoftphone.UI.ViewModel
 
         private void ClearLogsPressed()
         {
-            //throw new NotImplementedException();
+            if(this.CallLogItems != null)
+            {
+                this.CallLogItems.Clear();
+                this.callLog.UpdateCallLogs(this.CallLogItems.ToList());
+            }
         }
         #endregion
     }

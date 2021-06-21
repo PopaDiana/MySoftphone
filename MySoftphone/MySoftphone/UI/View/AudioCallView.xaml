@@ -11,14 +11,14 @@
 
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TabControl Height="240" HorizontalAlignment="Left" Margin="25,15,0,0" Name="tabControl1" VerticalAlignment="Top" Width="420">
+            <TabControl Height="270" HorizontalAlignment="Left" Margin="25,0,0,0" Name="tabControl1" VerticalAlignment="Top" Width="430">
                 <TabItem Header="Active Calls">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="180"/>
+                            <RowDefinition Height="205"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ListView x:Name="activeCallsLV" Height="180" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
+                        <ListView x:Name="activeCallsLV" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
                                     <GridViewColumn Width="110" Header="Caller Name" DisplayMemberBinding="{Binding CallerName}"/>
@@ -39,10 +39,10 @@
                 <TabItem Header="Agenda">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="180"/>
+                            <RowDefinition Height="205"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ListView x:Name="agendaLV" ItemsSource="{Binding AgendaItems, Mode=TwoWay}" SelectedItem="{Binding SelectedAgendaEntry}" Height="180" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
+                        <ListView x:Name="agendaLV" ItemsSource="{Binding AgendaItems, Mode=TwoWay}" SelectedItem="{Binding SelectedAgendaEntry}" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
                                     <GridViewColumn Width="150" Header="Caller Name" DisplayMemberBinding="{Binding Name}"/>
@@ -53,23 +53,23 @@
                         </ListView>
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
                             <Button Margin="2,2,5,2" Content="Dial" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDialPressed}"/>
-                            <Button Margin="233,2,5,2" Content="Delete contact" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDeleteContactPressed}"/>
+                            <Button Margin="245,2,5,2" Content="Delete contact" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDeleteContactPressed}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Call Log">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="180"/>
+                            <RowDefinition Height="205"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ListView x:Name="callLogLV" ItemsSource="{Binding CallLogItems, Mode=TwoWay}" SelectedItem="{Binding SelectedLogEntry}" Height="180" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
+                        <ListView x:Name="callLogLV" ItemsSource="{Binding CallLogItems, Mode=TwoWay}" SelectedItem="{Binding SelectedLogEntry}" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
-                                    <GridViewColumn Width="100" Header="Caller Name" DisplayMemberBinding="{Binding CallerName}"/>
-                                    <GridViewColumn Width="91" Header="Direction" DisplayMemberBinding="{Binding Direction}"/>
-                                    <GridViewColumn Width="100" Header="Date" DisplayMemberBinding="{Binding Date}"/>
-                                    <GridViewColumn Width="100" Header="Duration" DisplayMemberBinding="{Binding Duration}"/>
+                                    <GridViewColumn Width="90" Header="Caller Name" DisplayMemberBinding="{Binding CallerName}"/>
+                                    <GridViewColumn Width="90" Header="Direction" DisplayMemberBinding="{Binding Direction}"/>
+                                    <GridViewColumn Width="160" Header="Date" DisplayMemberBinding="{Binding Date}"/>
+                                    <GridViewColumn Width="73" Header="Duration" DisplayMemberBinding="{Binding Duration}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -80,16 +80,16 @@
                     </Grid>
                 </TabItem>
             </TabControl>
-            
-            <GroupBox Header="Dialpad" Margin="25,10,10,10" Padding="0" Foreground="White" FontSize="13">
+
+            <GroupBox Height="270" Header="Dialpad" Margin="15,0,0,0" Padding="0" Foreground="White" FontSize="13">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="45" />
+                        <RowDefinition Height="70" />
                         <RowDefinition Height="32" />
                         <RowDefinition Height="32" />
                         <RowDefinition Height="32" />
                         <RowDefinition Height="32" />
-                        <RowDefinition Height="42" />
+                        <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="70" />
@@ -114,33 +114,33 @@
                         </i:Interaction.Triggers>
                     </TextBox>
 
-                    <Button Margin="1,1,1,1" Content="1" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="0" Command="{Binding DialpadButtonPressed}" CommandParameter="1"/>
-                    <Button Margin="1,1,1,1" Content="2" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="1" Command="{Binding DialpadButtonPressed}" CommandParameter="2"/>
-                    <Button Margin="5,1,1,1" HorizontalAlignment="Left" Content="3" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="2" Command="{Binding DialpadButtonPressed}" CommandParameter="3"/>
+                    <Button Margin="8,1,0,1" Content="1" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="0" Command="{Binding DialpadButtonPressed}" CommandParameter="1"/>
+                    <Button Margin="8,1,0,1" Content="2" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="1" Command="{Binding DialpadButtonPressed}" CommandParameter="2"/>
+                    <Button Margin="10,1,1,1" HorizontalAlignment="Left" Content="3" Style="{StaticResource DialpadButtonTheme}" Grid.Row="1" Grid.Column="2" Command="{Binding DialpadButtonPressed}" CommandParameter="3"/>
 
-                    <Button Margin="1,1,1,1" Content="4" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="0" Command="{Binding DialpadButtonPressed}" CommandParameter="4"/>
-                    <Button Margin="1,1,1,1" Content="5" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="1" Command="{Binding DialpadButtonPressed}" CommandParameter="5"/>
-                    <Button Margin="5,1,1,1" HorizontalAlignment="Left" Content="6" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="2" Command="{Binding DialpadButtonPressed}" CommandParameter="6"/>
+                    <Button Margin="8,1,0,1" Content="4" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="0" Command="{Binding DialpadButtonPressed}" CommandParameter="4"/>
+                    <Button Margin="8,1,0,1" Content="5" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="1" Command="{Binding DialpadButtonPressed}" CommandParameter="5"/>
+                    <Button Margin="10,1,1,1" HorizontalAlignment="Left" Content="6" Style="{StaticResource DialpadButtonTheme}" Grid.Row="2" Grid.Column="2" Command="{Binding DialpadButtonPressed}" CommandParameter="6"/>
 
-                    <Button Margin="1,1,1,1" Content="7"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="0" Command="{Binding DialpadButtonPressed}" CommandParameter="7"/>
-                    <Button Margin="1,1,1,1" Content="8"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="1" Command="{Binding DialpadButtonPressed}" CommandParameter="8"/>
-                    <Button Margin="5,1,1,1" HorizontalAlignment="Left" Content="9"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="2" Command="{Binding DialpadButtonPressed}" CommandParameter="9"/>
+                    <Button Margin="8,1,0,1" Content="7"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="0" Command="{Binding DialpadButtonPressed}" CommandParameter="7"/>
+                    <Button Margin="8,1,0,1" Content="8"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="1" Command="{Binding DialpadButtonPressed}" CommandParameter="8"/>
+                    <Button Margin="10,1,1,1" HorizontalAlignment="Left" Content="9"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="3" Grid.Column="2" Command="{Binding DialpadButtonPressed}" CommandParameter="9"/>
 
-                    <Button Margin="1,1,1,1" Content="*"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="0" Command="{Binding DialpadButtonPressed}" CommandParameter="*"/>
-                    <Button Margin="1,1,1,1" Content="0"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="1" Command="{Binding DialpadButtonPressed}" CommandParameter="0"/>
-                    <Button Margin="5,1,1,1" HorizontalAlignment="Left" Content="#"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="2" Command="{Binding DialpadButtonPressed}" CommandParameter="#"/>
+                    <Button Margin="8,1,0,1" Content="*"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="0" Command="{Binding DialpadButtonPressed}" CommandParameter="*"/>
+                    <Button Margin="8,1,0,1" Content="0"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="1" Command="{Binding DialpadButtonPressed}" CommandParameter="0"/>
+                    <Button Margin="10,1,1,1" HorizontalAlignment="Left" Content="#"  Style="{StaticResource DialpadButtonTheme}" Grid.Row="4" Grid.Column="2" Command="{Binding DialpadButtonPressed}" CommandParameter="#"/>
 
-                    <Button Margin="1,1,1,1" Content="Audio Call" Width="65" Height="25" Style="{StaticResource MyButtonTheme}" Grid.Row="5" Grid.Column="0" Command="{Binding OnAudioCallPressed}"/>
-                    <Button Margin="1,1,1,1" Content="Video Call" Width="65" Height="25" Style="{StaticResource MyButtonTheme}" Grid.Row="5" Grid.Column="1" Command="{Binding OnVidoCallPressed}"/>
-                    <Button Margin="1,1,1,1" Content="Save to agenda" Width="85" Height="25" Style="{StaticResource MyButtonTheme}" Grid.Row="5" Grid.Column="2" Command="{Binding OnSaveToAgendaPressed}"/>
+                    <Button Margin="1,10,1,1" Content="Audio Call" Width="65" Height="25" Style="{StaticResource MyButtonTheme}" Grid.Row="5" Grid.Column="0" Command="{Binding OnAudioCallPressed}"/>
+                    <Button Margin="1,10,1,1" Content="Video Call" Width="65" Height="25" Style="{StaticResource MyButtonTheme}" Grid.Row="5" Grid.Column="1" Command="{Binding OnVidoCallPressed}"/>
+                    <Button Margin="1,10,1,1" Content="Save to agenda" Width="85" Height="25" Style="{StaticResource MyButtonTheme}" Grid.Row="5" Grid.Column="2" Command="{Binding OnSaveToAgendaPressed}"/>
                 </Grid>
             </GroupBox>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="20,10,20,0">
-            <GroupBox Header="My Camera"  Margin="10,10,10,10" Padding="0" Foreground="White" FontSize="13">
-                <video:VideoViewerWPF Width="320" Height="135" HorizontalAlignment="Center" Margin="4,7,0,0" Name="localVideoViewer" VerticalAlignment="Center" />
+        <StackPanel Orientation="Horizontal" Margin="20,5,20,0">
+            <GroupBox Header="My Camera"  Margin="10,2,10,10" Padding="0" Foreground="White" FontSize="13">
+                <video:VideoViewerWPF Width="320" Height="200" HorizontalAlignment="Center" Margin="4,7,0,0" Name="localVideoViewer" VerticalAlignment="Center" />
             </GroupBox>
-            <GroupBox Header="Caller Camera"  Margin="5,10,10,10" Padding="0" Foreground="White" FontSize="13">
+            <GroupBox Header="Caller Camera"  Margin="5,2,10,10" Padding="0" Foreground="White" FontSize="13">
                 <video:VideoViewerWPF Width="320" Height="200" HorizontalAlignment="Center" Margin="4,7,0,0" Name="remoteVideoViewer" VerticalAlignment="Center" />
             </GroupBox>
         </StackPanel>
