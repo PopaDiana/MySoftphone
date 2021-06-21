@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace MySoftphone.UI.Model
 {
-    enum CallDirectionEnum
+    enum CallStateEnum
     {
-        OutgoingAudio,
-        IncomingAudio,
-        OutgoingVideo,
-        IncomingVideo
+        Ongoing,
+        Ended,
+        Rejected,
+        Transfered,
+        AudioCall,
+        VideoCall,
+        Lost
     }
 }

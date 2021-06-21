@@ -111,12 +111,12 @@ namespace MySoftphone.UI.ViewModel
             callLog = new CallLog();
             CallLogItems = new ObservableCollection<CallLogItem>()
             {
-                new CallLogItem("Dia", CallDirectionEnum.Incoming, new DateTime(2021,6,20,20,13,10), new TimeSpan(0,3,20)),
-                new CallLogItem("Xyz", CallDirectionEnum.Outgoing, new DateTime(2021,5,2,20,13,10), new TimeSpan(0,1,9)),
-                new CallLogItem("Jack", CallDirectionEnum.Incoming, new DateTime(2021,2,12,15,13,10), new TimeSpan(0,3,20))
+                new CallLogItem(new Call("Dia", "074" ,CallDirectionEnum.IncomingAudio, CallStateEnum.Lost)),
+                new CallLogItem(new Call("Xyz", "989",CallDirectionEnum.OutgoingVideo, CallStateEnum.Ongoing)),
+                new CallLogItem(new Call("Jack", "870",CallDirectionEnum.IncomingVideo, CallStateEnum.Rejected))
             };
 
-                //new ObservableCollection<CallLogItem> ( callLog.GetCallLog());
+            //new ObservableCollection<CallLogItem> ( callLog.GetCallLog());
 
             this.TypedPhoneNumber = string.Empty;
 

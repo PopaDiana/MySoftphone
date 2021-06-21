@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace MySoftphone.UI.Model
 {
-    enum CallDirectionEnum
+    enum TransportTypeEnum
     {
-        OutgoingAudio,
-        IncomingAudio,
-        OutgoingVideo,
-        IncomingVideo
+        TCP,
+        UDP,
+        TLS
     }
 }

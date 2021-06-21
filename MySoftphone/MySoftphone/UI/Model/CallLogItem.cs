@@ -8,17 +8,25 @@ namespace MySoftphone.UI.Model
 {
     class CallLogItem
     {
-        public CallLogItem(string callerName, CallDirectionEnum direction, DateTime date, TimeSpan duration)
+        public CallLogItem(string callerName, CallStateEnum type, DateTime date, TimeSpan duration)
         {
             this.CallerName = callerName;
-            this.Direction = direction;
+            this.Type = type;
             this.Date = date;
             this.Duration = duration;
         }
 
+        public CallLogItem(Call call)
+        {
+            this.CallerName = call.CallerName;
+            this.Type = call.CallState;
+            this.Date = call.StartTime;
+            this.Duration = call.Duration;
+        }
+
         public string CallerName { get; set; }
 
-        public CallDirectionEnum Direction { get; set; }
+        public CallStateEnum Type { get; set; }
 
         public DateTime Date { get; set; }
 
