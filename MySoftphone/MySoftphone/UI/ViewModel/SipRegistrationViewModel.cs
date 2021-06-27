@@ -1,33 +1,30 @@
 ﻿using MySoftphone.MVVM;
 using MySoftphone.UI.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySoftphone.UI.ViewModel
 {
-    class SipRegistrationViewModel : ObservableObject
+    internal class SipRegistrationViewModel : ObservableObject
     {
         #region Private Fields
+
         private TransportTypeEnum selectedTransportType;
         private string lineStatus;
-        private ObservableCollection<string> registeredSIPAccounts;
-        private string displayName;
-        private string userName;
-        private string registerName;
-        private string password;
-        private string domain;
+        private string displayName = string.Empty;
+        private string userName = string.Empty;
+        private string registerName = string.Empty;
+        private string password = string.Empty;
+        private string domain = string.Empty;
         private TransportTypeEnum transportType;
-        #endregion
+
+        #endregion Private Fields
 
         #region Properties
+
+        public SoftphoneManager SoftphoneManager { get; }
+
         public ObservableCollection<TransportTypeEnum> TransportTypes { get; set; }
 
-        public RegisteredSIPAccounts SIPAccounts { get; set; }
 
         public string DisplayName
         {
@@ -107,19 +104,6 @@ namespace MySoftphone.UI.ViewModel
             }
         }
 
-        public ObservableCollection<string> RegisteredSIPAccounts
-        {
-            get
-            {
-                return this.registeredSIPAccounts;
-            }
-            set
-            {
-                this.registeredSIPAccounts = value;
-                OnPropertyChanged("RegisteredSIPAccounts");
-            }
-        }
-
         public TransportTypeEnum SelectedTransportType
         {
             get
@@ -136,33 +120,33 @@ namespace MySoftphone.UI.ViewModel
         public string LineStatus
         {
             get { return this.lineStatus; }
-            set 
+            set
             {
                 this.lineStatus = value;
                 OnPropertyChanged("LineStatus");
             }
         }
 
-
-        #endregion
+        #endregion Properties
 
         #region Constructors
-        public SipRegistrationViewModel()
+
+        public SipRegistrationViewModel(SoftphoneManager softphoneManager)
         {
-            this.TransportTypes = new ObservableCollection<TransportTypeEnum>() { TransportTypeEnum.TCP, TransportTypeEnum.UDP, TransportTypeEnum.TLS};
+            this.SoftphoneManager = softphoneManager;
+            this.TransportTypes = new ObservableCollection<TransportTypeEnum>() { TransportTypeEnum.TCP, TransportTypeEnum.UDP, TransportTypeEnum.TLS };
             this.SelectedTransportType = this.TransportTypes[0];
-            this.LineStatus = "Unknown";
-            this.SIPAccounts = new RegisteredSIPAccounts();
-            this.RegisteredSIPAccounts = new ObservableCollection<string>( this.SIPAccounts.GetRegisteredAccountsAsString());
 
             RegisterButtonPressed = new RelayCommand(a => this.Register());
-            UnregisterButtonPressed = new RelayCommand(a => this.Uregister());
+            UnregisterButtonPressed = new RelayCommand(a => this.Unregister());
             RemoveButtonPressed = new RelayCommand(a => this.Remove());
             this.SaveButtonPressed = new RelayCommand(a => this.Save());
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Relay Commands
+
         public RelayCommand RegisterButtonPressed { get; set; }
 
         public RelayCommand UnregisterButtonPressed { get; set; }
@@ -170,25 +154,39 @@ namespace MySoftphone.UI.ViewModel
         public RelayCommand RemoveButtonPressed { get; set; }
 
         public RelayCommand SaveButtonPressed { get; set; }
-        #endregion
+
+        #endregion Relay Commands
 
         #region Private Methods
 
         private void Save()
         {
-            this.SIPAccounts.Add(
-                new SIPAccount(this.DisplayName,this.UserName,
-                this.RegisterName, this.Password, this.Domain, this.TransportType));
-            this.RegisteredSIPAccounts = new ObservableCollection<string>(this.SIPAccounts.GetRegisteredAccountsAsString());
+            SIPAccountModel account = new SIPAccountModel(this.DisplayName, this.UserName,
+                this.RegisterName, this.Password, this.Domain, this.TransportType);
+
+            if (account.IsValid())
+            {
+                this.SoftphoneManager.SaveSIPAccount(account, this.SelectedTransportType);
+            }
+
+            this.UserName = string.Empty;
+            this.DisplayName = string.Empty;
+            this.Password = string.Empty;
+            this.RegisterName = string.Empty;
+            this.SelectedTransportType = this.TransportTypes[0];
+            this.Domain = string.Empty;
+            //this.SIPAccounts.Add(
+            //    new SIPAccount(this.DisplayName,this.UserName,
+            //    this.RegisterName, this.Password, this.Domain, this.TransportType));
+            //this.RegisteredSIPAccounts = new ObservableCollection<string>(this.SIPAccounts.GetRegisteredAccountsAsString());
         }
 
         private void Remove()
         {
-            //throw new NotImplementedException();
-            //set LineStatus
+            this.SoftphoneManager.RemoveSipAccount();
         }
 
-        private void Uregister()
+        private void Unregister()
         {
             //throw new NotImplementedException();
             //set LineStatus
@@ -199,6 +197,7 @@ namespace MySoftphone.UI.ViewModel
             //throw new NotImplementedException();
             //set LineStatus
         }
-        #endregion
+
+        #endregion Private Methods
     }
 }

@@ -1,15 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySoftphone.UI.Model
 {
-    class Agenda
+    internal class Agenda
     {
         private string jsonFileName = "Agenda.json";
 

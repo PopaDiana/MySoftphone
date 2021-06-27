@@ -1,23 +1,20 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySoftphone.UI.Model
 {
-    class RegisteredSIPAccounts
+    internal class RegisteredSIPAccounts
     {
-        private List<SIPAccount> sIPAccounts;
+        private List<SIPAccountModel> sIPAccounts;
 
         private string jsonFileName = "SIPAccounts.json";
 
         private string dir = "JsonFiles";
 
         private string filePath;
+
         public RegisteredSIPAccounts()
         {
             Directory.CreateDirectory(dir);
@@ -30,9 +27,14 @@ namespace MySoftphone.UI.Model
             this.sIPAccounts = this.DeserializeAccountsFromFile();
         }
 
-        public void Add(SIPAccount sIPAccount)
+        public List<SIPAccountModel> GetSipAccounts()
         {
-            if(!this.sIPAccounts.Contains(sIPAccount))
+            return this.sIPAccounts;
+        }
+
+        public void Add(SIPAccountModel sIPAccount)
+        {
+            if (!this.sIPAccounts.Contains(sIPAccount))
             {
                 this.sIPAccounts.Add(sIPAccount);
             }
@@ -45,12 +47,7 @@ namespace MySoftphone.UI.Model
             if (this.sIPAccounts == null)
                 return new List<string>();
 
-            List<string> stringAcc = new List<string>();
-
-            foreach (var a in this.sIPAccounts)
-            {
-                stringAcc.Add(a.RegisterName + "@" + a.Domain);
-            }
+            List<string> stringAcc = this.sIPAccounts.Select(a => a.SIPAccountAsString).ToList();
 
             return stringAcc;
         }
@@ -61,16 +58,26 @@ namespace MySoftphone.UI.Model
             File.WriteAllText(filePath, jsonString);
         }
 
-        private List<SIPAccount> DeserializeAccountsFromFile()
+        private List<SIPAccountModel> DeserializeAccountsFromFile()
         {
             string fileContent = File.ReadAllText(filePath);
-            List<SIPAccount> jsonList =
-                JsonConvert.DeserializeObject<List<SIPAccount>>(fileContent);
+            List<SIPAccountModel> jsonList =
+                JsonConvert.DeserializeObject<List<SIPAccountModel>>(fileContent);
 
             if (jsonList == null)
-                return new List<SIPAccount>();
+                return new List<SIPAccountModel>();
 
             return jsonList;
+        }
+
+        internal void Remove(string selectedSIPAccount)
+        {
+            SIPAccountModel account = this.sIPAccounts.Where(a => a.SIPAccountAsString.Equals(selectedSIPAccount)).FirstOrDefault();
+            if (account != null)
+            {
+                this.sIPAccounts.Remove(account);
+                this.SerializeSIPAcounts();
+            }
         }
     }
 }

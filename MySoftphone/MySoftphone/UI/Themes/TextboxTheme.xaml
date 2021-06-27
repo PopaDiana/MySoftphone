@@ -12,7 +12,7 @@
                         <Grid>
                             <Rectangle StrokeThickness="1"/>
                             <TextBox Margin="3"
-                                   Text="{TemplateBinding Text}"
+                                   Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
                                    BorderThickness="0"
                                      Background="Transparent"
                                      VerticalContentAlignment="Center"
@@ -31,7 +31,7 @@
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Text, ElementName=TypeBox}" Value="">
+                                            <DataTrigger Binding="{Binding Text, ElementName=TypeBox, UpdateSourceTrigger=PropertyChanged}" Value="">
                                                 <Setter Property="Visibility" Value="Visible"/>
                                             </DataTrigger>
                                         </Style.Triggers>

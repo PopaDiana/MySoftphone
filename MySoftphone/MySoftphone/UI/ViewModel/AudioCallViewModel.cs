@@ -16,13 +16,9 @@ namespace MySoftphone.UI.ViewModel
 
         private Agenda agenda;
 
-        private CallLog callLog;
-
         private ObservableCollection<Caller> agendaItems;
 
         private Caller selectedAgendaEntry;
-
-        private ObservableCollection<CallLogItem> callLogItems;
 
         private CallLogItem selectedLogEntry;
         #endregion
@@ -38,19 +34,6 @@ namespace MySoftphone.UI.ViewModel
             {
                 this.typedPhoneNumber = value;
                 OnPropertyChanged("TypedPhoneNumber");
-            }
-        }
-
-        public ObservableCollection<CallLogItem> CallLogItems
-        {
-            get
-            {
-                return this.callLogItems;
-            }
-            set
-            {
-                this.callLogItems = value;
-                OnPropertyChanged("CallLogItems");
             }
         }
 
@@ -92,31 +75,17 @@ namespace MySoftphone.UI.ViewModel
                 OnPropertyChanged("SelectedLogEntry");
             }
         }
+
+        public SoftphoneManager SoftphoneManager { get; }
+
         #endregion
 
         #region Constructors
-        public AudioCallViewModel()
+        public AudioCallViewModel(SoftphoneManager softphoneManager)
         {
+            this.SoftphoneManager = softphoneManager;
             agenda = new Agenda();
-            AgendaItems =
-            new ObservableCollection<Caller>(agenda.GetAgenda());
-            //new ObservableCollection<Caller>()
-            //{
-            //    new Caller("Dia","098"),
-            //    new Caller("Ana","990"),
-            //    new Caller("John", "0744678"),
-            //    new Caller("Mike", "009537")
-            //};
-
-            callLog = new CallLog();
-            CallLogItems = new ObservableCollection<CallLogItem>()
-            {
-                new CallLogItem(new Call("Dia", "074" ,CallDirectionEnum.IncomingAudio, CallStateEnum.Lost)),
-                new CallLogItem(new Call("Xyz", "989",CallDirectionEnum.OutgoingVideo, CallStateEnum.Ongoing)),
-                new CallLogItem(new Call("Jack", "870",CallDirectionEnum.IncomingVideo, CallStateEnum.Rejected))
-            };
-
-            //new ObservableCollection<CallLogItem> ( callLog.GetCallLog());
+            AgendaItems = new ObservableCollection<Caller>(agenda.GetAgenda());
 
             this.TypedPhoneNumber = string.Empty;
 
@@ -231,11 +200,7 @@ namespace MySoftphone.UI.ViewModel
 
         private void ClearLogsPressed()
         {
-            if(this.CallLogItems != null)
-            {
-                this.CallLogItems.Clear();
-                this.callLog.UpdateCallLogs(this.CallLogItems.ToList());
-            }
+            this.SoftphoneManager.ClearCallLog();
         }
         #endregion
     }

@@ -1,13 +1,8 @@
-﻿using MySoftphone.UI.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ozeki.VoIP;
 
 namespace MySoftphone.UI.Model
 {
-    class SIPAccount
+    internal class SIPAccountModel
     {
         public string DisplayName { get; set; }
 
@@ -21,7 +16,13 @@ namespace MySoftphone.UI.Model
 
         public string Domain { get; set; }
 
-        public SIPAccount()
+        public string SIPAccountAsString { get; set; }
+    
+        public SIPAccount SIPAccount { get; set; }
+
+        public IPhoneLine PhoneLine { get; set; }
+
+        public SIPAccountModel()
         {
             this.DisplayName = string.Empty;
             this.UserName = string.Empty;
@@ -29,9 +30,10 @@ namespace MySoftphone.UI.Model
             this.Password = string.Empty;
             this.Domain = string.Empty;
             this.TransportType = TransportTypeEnum.UDP;
+            this.SIPAccountAsString = string.Empty;
         }
 
-        public SIPAccount(string displayName,
+        public SIPAccountModel(string displayName,
             string userName,
             string registeredName,
             string password,
@@ -44,6 +46,22 @@ namespace MySoftphone.UI.Model
             this.Password = password;
             this.Domain = domain;
             this.TransportType = transport;
+            this.SIPAccountAsString = registeredName + "@" + domain;
+            this.SIPAccount = new SIPAccount(true, this.DisplayName, this.UserName, this.RegisterName, this.Password, this.Domain);
+        }
+
+        internal bool IsValid()
+        {
+            bool valid = true;
+
+            if (string.IsNullOrEmpty(this.DisplayName) ||
+                string.IsNullOrEmpty(this.UserName) ||
+                string.IsNullOrEmpty(this.RegisterName) ||
+                string.IsNullOrEmpty(this.Password) ||
+                string.IsNullOrEmpty(this.Domain))
+                valid = false;
+            //validate password and domain
+            return valid;
         }
     }
 }

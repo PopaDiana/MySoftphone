@@ -66,14 +66,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UI\Model\GeneralEventArgs.cs" />
+    <Compile Include="UI\Model\MediaHandlers.cs" />
+    <Compile Include="UI\Model\SoftphoneManager.cs" />
     <Compile Include="UI\Model\Call.cs" />
     <Compile Include="UI\Model\CallDirectionType.cs" />
     <Compile Include="UI\Model\Caller.cs" />
     <Compile Include="UI\Model\CallLog.cs" />
     <Compile Include="UI\Model\CallLogItem.cs" />
     <Compile Include="UI\Model\Agenda.cs" />
-    <Compile Include="UI\Model\CallStateType.cs" />
-    <Compile Include="UI\Model\SIPAccount.cs" />
+    <Compile Include="UI\Model\SIPAccountModel.cs" />
     <Compile Include="UI\Model\RegisteredSIPAccounts.cs" />
     <Compile Include="UI\Model\TransportType.cs" />
     <Compile Include="UI\ViewModel\AudioCallViewModel.cs" />

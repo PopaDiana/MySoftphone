@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Ozeki.VoIP;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,8 +36,12 @@ namespace MySoftphone.UI.Model
             return this.callLogList;
         }
 
-        public void AddToAgenda(CallLogItem item)
+        public void AddToCallLog(IPhoneCall phoneCall)
         {
+            if (phoneCall == null)
+                return;
+
+            CallLogItem item = new CallLogItem(new Call(phoneCall));
             this.callLogList.Add(item);
             this.callLogList.Add(item);
             this.OrderCallLogs();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ozeki.VoIP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,6 @@ namespace MySoftphone.UI.Model
 {
     class CallLogItem
     {
-        public CallLogItem(string callerName, CallStateEnum type, DateTime date, TimeSpan duration)
-        {
-            this.CallerName = callerName;
-            this.Type = type;
-            this.Date = date;
-            this.Duration = duration;
-        }
-
         public CallLogItem(Call call)
         {
             this.CallerName = call.CallerName;
@@ -26,7 +19,7 @@ namespace MySoftphone.UI.Model
 
         public string CallerName { get; set; }
 
-        public CallStateEnum Type { get; set; }
+        public CallState Type { get; set; }
 
         public DateTime Date { get; set; }
 

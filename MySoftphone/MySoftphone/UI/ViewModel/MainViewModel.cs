@@ -1,21 +1,21 @@
 ﻿using MySoftphone.MVVM;
+using MySoftphone.UI.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySoftphone.UI.ViewModel
 {
-    class MainViewModel : ObservableObject
+    internal class MainViewModel : ObservableObject
     {
         #region Private fields
+
         private object currentView;
 
         private RelayCommand someCommand;
-        #endregion
+
+        #endregion Private fields
 
         #region Properties
+
         public SipRegistrationViewModel SipRegVM { get; set; }
 
         public AudioCallViewModel AudioCallVM { get; set; }
@@ -23,22 +23,24 @@ namespace MySoftphone.UI.ViewModel
         public object CurrentView
         {
             get { return currentView; }
-            set 
-            { 
+            set
+            {
                 currentView = value;
                 OnPropertyChanged();
-            } 
+            }
         }
+
+        public SoftphoneManager SoftphoneManager { get; set; }
 
         public RelayCommand SipRegViewCommand { get; set; }
 
         public RelayCommand AudioCallViewCommand { get; set; }
 
-        public RelayCommand SomeCommand 
-        { 
+        public RelayCommand SomeCommand
+        {
             get
             {
-                if(someCommand == null)
+                if (someCommand == null)
                 {
                     someCommand = new RelayCommand(param => this.DragWindowOnMouseDrag(), null);
                 }
@@ -47,13 +49,15 @@ namespace MySoftphone.UI.ViewModel
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructor
+
         public MainViewModel()
         {
-            SipRegVM = new SipRegistrationViewModel();
-            AudioCallVM = new AudioCallViewModel();
+            this.SoftphoneManager = new SoftphoneManager();
+            SipRegVM = new SipRegistrationViewModel(this.SoftphoneManager);
+            AudioCallVM = new AudioCallViewModel(this.SoftphoneManager);
             CurrentView = SipRegVM;
 
             SipRegViewCommand = new RelayCommand(o =>
@@ -65,9 +69,9 @@ namespace MySoftphone.UI.ViewModel
             {
                 CurrentView = AudioCallVM;
             });
-
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Private methods
 
@@ -76,6 +80,6 @@ namespace MySoftphone.UI.ViewModel
             throw new NotImplementedException();
         }
 
-        #endregion
+        #endregion Private methods
     }
 }

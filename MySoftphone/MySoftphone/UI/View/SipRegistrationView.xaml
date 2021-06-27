@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MySoftphone.UI.View"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
@@ -35,6 +36,14 @@
                                Margin="20,0,10,0"
                                Grid.Column="0"
                                Grid.Row="1"/>
+                    <TextBlock Text="{Binding LineStatus}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="White"
+                               FontSize="15"
+                               Margin="20,0,10,0"
+                               Grid.Column="1"
+                               Grid.Row="1"/>
 
                     <ComboBox Width="250" 
                               Height="30"
@@ -42,9 +51,9 @@
                               HorizontalAlignment="Left"
                               Margin="20,0,20,0"
                               Grid.Column="1"
-                              Style="{StaticResource ComboboxStyle}">
-                        <ComboBoxItem>1</ComboBoxItem>
-                        <ComboBoxItem>2</ComboBoxItem>
+                              Style="{StaticResource ComboboxStyle}"
+                              ItemsSource="{Binding SoftphoneManager.RegisteredSIPAccounts}"
+                              SelectedItem="{Binding SoftphoneManager.SelectedSIPAccount}">
                     </ComboBox>
                     <TextBlock Text="{Binding LineStatus}"
                                VerticalAlignment="Center"
@@ -106,8 +115,8 @@
                          HorizontalAlignment="Left"
                          Margin="5,2,2,2"
                          Grid.Row="0"
-                         Style="{StaticResource MyTextboxStyle}" 
                         Grid.Column ="1"
+                        Style="{StaticResource MyTextboxStyle}" 
                         Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Text="User Name:"
