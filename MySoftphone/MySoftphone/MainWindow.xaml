@@ -44,7 +44,7 @@
                         Style="{StaticResource MyButtonTheme}" Margin="0,0,0,0" HorizontalAlignment="Center"
                         PreviewMouseUp="OnCloseWindow"/>
             </StackPanel>
-            <TextBlock Text="User"
+            <TextBlock Text="DisplayName"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Foreground="White"

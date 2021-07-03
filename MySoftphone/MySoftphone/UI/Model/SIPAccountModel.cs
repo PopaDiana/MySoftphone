@@ -20,7 +20,6 @@ namespace MySoftphone.UI.Model
     
         public SIPAccount SIPAccount { get; set; }
 
-        public IPhoneLine PhoneLine { get; set; }
 
         public SIPAccountModel()
         {

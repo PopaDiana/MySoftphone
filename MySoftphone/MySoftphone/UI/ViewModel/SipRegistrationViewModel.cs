@@ -1,5 +1,6 @@
 ﻿using MySoftphone.MVVM;
 using MySoftphone.UI.Model;
+using System;
 using System.Collections.ObjectModel;
 
 namespace MySoftphone.UI.ViewModel
@@ -9,7 +10,6 @@ namespace MySoftphone.UI.ViewModel
         #region Private Fields
 
         private TransportTypeEnum selectedTransportType;
-        private string lineStatus;
         private string displayName = string.Empty;
         private string userName = string.Empty;
         private string registerName = string.Empty;
@@ -24,7 +24,6 @@ namespace MySoftphone.UI.ViewModel
         public SoftphoneManager SoftphoneManager { get; }
 
         public ObservableCollection<TransportTypeEnum> TransportTypes { get; set; }
-
 
         public string DisplayName
         {
@@ -117,16 +116,6 @@ namespace MySoftphone.UI.ViewModel
             }
         }
 
-        public string LineStatus
-        {
-            get { return this.lineStatus; }
-            set
-            {
-                this.lineStatus = value;
-                OnPropertyChanged("LineStatus");
-            }
-        }
-
         #endregion Properties
 
         #region Constructors
@@ -175,27 +164,39 @@ namespace MySoftphone.UI.ViewModel
             this.RegisterName = string.Empty;
             this.SelectedTransportType = this.TransportTypes[0];
             this.Domain = string.Empty;
-            //this.SIPAccounts.Add(
-            //    new SIPAccount(this.DisplayName,this.UserName,
-            //    this.RegisterName, this.Password, this.Domain, this.TransportType));
-            //this.RegisteredSIPAccounts = new ObservableCollection<string>(this.SIPAccounts.GetRegisteredAccountsAsString());
         }
 
         private void Remove()
         {
-            this.SoftphoneManager.RemoveSipAccount();
+            try
+            {
+                this.SoftphoneManager.RemoveSipAccount();
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         private void Unregister()
         {
-            //throw new NotImplementedException();
-            //set LineStatus
+            try
+            {
+                this.SoftphoneManager.UnRegisterPhoneLine();
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         private void Register()
         {
-            //throw new NotImplementedException();
-            //set LineStatus
+            try
+            {
+                this.SoftphoneManager.RegisterPhoneLine();
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         #endregion Private Methods

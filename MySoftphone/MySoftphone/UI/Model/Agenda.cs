@@ -24,7 +24,14 @@ namespace MySoftphone.UI.Model
             if (!File.Exists(filePath))
                 File.WriteAllText(filePath, string.Empty);
 
-            this.callersList = this.DeserializeAgenda();
+            this.callersList = new List<Caller>()
+            {
+                new Caller("Caller1", "073526769"),
+                new Caller("Caller2", "026716378"),
+                new Caller("Caller3", "9810")
+            };
+
+                //this.DeserializeAgenda();
         }
 
         public List<Caller> GetAgenda()

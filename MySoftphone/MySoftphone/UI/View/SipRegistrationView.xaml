@@ -36,6 +36,15 @@
                                Margin="20,0,10,0"
                                Grid.Column="0"
                                Grid.Row="1"/>
+                    <TextBlock Text="{Binding SoftphoneManager.LineState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="White"
+                               FontSize="15"
+                               Margin="20,0,10,0"
+                               Grid.Column="1"
+                               Grid.Row="1"/>
+                    
                     <TextBlock Text="{Binding LineStatus}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"

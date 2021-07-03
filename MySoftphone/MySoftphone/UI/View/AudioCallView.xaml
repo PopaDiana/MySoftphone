@@ -7,7 +7,8 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:video="OzVideoViewerWPF"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Loaded="CallsWindowLoaded">
 
     <StackPanel>
         <StackPanel Orientation="Horizontal">
@@ -52,8 +53,9 @@
                             </ListView.View>
                         </ListView>
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
-                            <Button Margin="2,2,5,2" Content="Dial" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDialPressed}"/>
-                            <Button Margin="270,2,5,2" Content="Delete contact" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDeleteContactPressed}"/>
+                            <Button Margin="2,2,5,2" Content="Dial Audio" Width="80" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDialPressedA}"/>
+                            <Button Margin="2,2,5,2" Content="Dial Video" Width="80" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDialPressedV}"/>
+                            <Button Margin="168,2,5,2" Content="Delete contact" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDeleteContactPressed}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
@@ -74,8 +76,8 @@
                             </ListView.View>
                         </ListView>
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
-                            <Button Margin="2,2,5,2" Content="Dial" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDialPressed}"/>
-                            <Button Margin="270,2,5,2" Content="Clear logs" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnClearLogsPressed}"/>
+                            <!--<Button Margin="2,2,5,2" Content="Dial" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDialPressed}"/>-->
+                            <Button Margin="340,2,5,2" Content="Clear logs" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnClearLogsPressed}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
@@ -138,7 +140,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="20,5,20,0">
             <GroupBox Header="My Camera"  Margin="10,2,10,10" Padding="0" Foreground="White" FontSize="13">
-                <video:VideoViewerWPF Width="320" Height="200" HorizontalAlignment="Center" Margin="4,7,0,0" Name="localVideoViewer" VerticalAlignment="Center" />
+                <video:VideoViewerWPF Width="320" Height="200" HorizontalAlignment="Center" Margin="4,7,0,0" Name="localVideoViewer" VerticalAlignment="Center"/>
             </GroupBox>
             <GroupBox Header="Caller Camera"  Margin="5,2,10,10" Padding="0" Foreground="White" FontSize="13">
                 <video:VideoViewerWPF Width="320" Height="200" HorizontalAlignment="Center" Margin="4,7,0,0" Name="remoteVideoViewer" VerticalAlignment="Center" />

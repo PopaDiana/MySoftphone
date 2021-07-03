@@ -59,5 +59,23 @@ namespace MySoftphone.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream basic_ring {
+            get {
+                return ResourceManager.GetStream("basic_ring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream ringback {
+            get {
+                return ResourceManager.GetStream("ringback", resourceCulture);
+            }
+        }
     }
 }

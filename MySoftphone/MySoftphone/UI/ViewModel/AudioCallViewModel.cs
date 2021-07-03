@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MySoftphone.MVVM;
+using MySoftphone.UI.Model;
+using Ozeki.Media;
+using Ozeki.VoIP;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySoftphone.MVVM;
-using MySoftphone.UI.Model;
 
 namespace MySoftphone.UI.ViewModel
 {
-    class AudioCallViewModel : ObservableObject
+    internal class AudioCallViewModel : ObservableObject
     {
         #region Private Fields
+
         private string typedPhoneNumber;
 
         private Agenda agenda;
@@ -21,9 +21,11 @@ namespace MySoftphone.UI.ViewModel
         private Caller selectedAgendaEntry;
 
         private CallLogItem selectedLogEntry;
-        #endregion
+
+        #endregion Private Fields
 
         #region Properties
+
         public string TypedPhoneNumber
         {
             get
@@ -78,9 +80,10 @@ namespace MySoftphone.UI.ViewModel
 
         public SoftphoneManager SoftphoneManager { get; }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
+
         public AudioCallViewModel(SoftphoneManager softphoneManager)
         {
             this.SoftphoneManager = softphoneManager;
@@ -98,13 +101,16 @@ namespace MySoftphone.UI.ViewModel
             OnHangUpPressed = new RelayCommand(a => this.HangUpPressed());
             OnRejectPressed = new RelayCommand(a => this.RejectPressed());
             OnTransferPressed = new RelayCommand(a => this.TransferPressed());
-            OnDialPressed = new RelayCommand(a => this.DialPressed());
+            OnDialPressedA = new RelayCommand(a => this.DialAudioPressed());
+            OnDialPressedV = new RelayCommand(a => this.DialVideoPressed());
             OnDeleteContactPressed = new RelayCommand(a => this.DeleteContactPressed());
             OnClearLogsPressed = new RelayCommand(a => this.ClearLogsPressed());
         }
-        #endregion
+
+        #endregion Constructors
 
         #region RelayCommands
+
         public RelayCommand DialpadButtonPressed { get; set; }
 
         public RelayCommand OnKeyDownDialpad { get; set; }
@@ -123,17 +129,21 @@ namespace MySoftphone.UI.ViewModel
 
         public RelayCommand OnTransferPressed { get; set; }
 
-        public RelayCommand OnDialPressed { get; set; }
+        public RelayCommand OnDialPressedA { get; set; }
+
+        public RelayCommand OnDialPressedV { get; set; }
 
         public RelayCommand OnDeleteContactPressed { get; set; }
 
         public RelayCommand OnClearLogsPressed { get; set; }
-        #endregion
+
+        #endregion RelayCommands
 
         #region Private Methods
+
         private void AppendToPhoneNumber(object number)
         {
-            if (number!=null)
+            if (number != null)
             {
                 this.TypedPhoneNumber += ((string)number);
             }
@@ -155,53 +165,113 @@ namespace MySoftphone.UI.ViewModel
 
         private void VideoCallPressed()
         {
-            //throw new NotImplementedException();
+            try
+            {
+                if (!string.IsNullOrEmpty(this.TypedPhoneNumber))
+                {
+                    this.SoftphoneManager.Call(CallType.AudioVideo, this.TypedPhoneNumber);
+                    this.TypedPhoneNumber = string.Empty;
+                }
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         private void AudioCallPressed()
         {
-            //throw new NotImplementedException();
+            try
+            {
+                if (!string.IsNullOrEmpty(this.TypedPhoneNumber))
+                {
+                    this.SoftphoneManager.Call(CallType.Audio, this.TypedPhoneNumber);
+                }
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         private void TransferPressed()
         {
-            //throw new NotImplementedException();
         }
 
         private void RejectPressed()
         {
-            //throw new NotImplementedException();
+            try
+            {
+                this.SoftphoneManager.RejectCall();
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         private void HangUpPressed()
         {
-            //throw new NotImplementedException();
+            try
+            {
+                this.SoftphoneManager.HangUpCall();
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         private void PickUpPressed()
         {
-            //throw new NotImplementedException();
+            try
+            {
+                this.SoftphoneManager.PickUpCall();
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         private void DeleteContactPressed()
         {
-            if(this.SelectedAgendaEntry != null && this.AgendaItems != null)
+            if (this.SelectedAgendaEntry != null && this.AgendaItems != null)
             {
                 this.AgendaItems.Remove(this.SelectedAgendaEntry);
                 this.SelectedAgendaEntry = null;
                 this.agenda.UpdateAgenda(this.AgendaItems.ToList());
-            } 
+            }
         }
 
-        private void DialPressed()
+        private void DialAudioPressed()
         {
-            //throw new NotImplementedException();
+            try
+            {
+                if (this.SelectedAgendaEntry != null && !string.IsNullOrEmpty(this.SelectedAgendaEntry.PhoneNumber))
+                {
+                    this.SoftphoneManager.Call(CallType.Audio, this.SelectedAgendaEntry.PhoneNumber);
+                }
+            }
+            catch (Exception e)
+            {
+            }
+        }
+
+        private void DialVideoPressed()
+        {
+            try
+            {
+                if (this.SelectedAgendaEntry != null && !string.IsNullOrEmpty(this.SelectedAgendaEntry.PhoneNumber))
+                {
+                    this.SoftphoneManager.Call(CallType.AudioVideo, this.SelectedAgendaEntry.PhoneNumber);
+                }
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         private void ClearLogsPressed()
         {
             this.SoftphoneManager.ClearCallLog();
         }
-        #endregion
+
+        #endregion Private Methods
     }
 }
