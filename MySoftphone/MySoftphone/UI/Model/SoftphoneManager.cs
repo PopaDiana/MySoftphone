@@ -129,7 +129,7 @@ namespace MySoftphone.UI.Model
         public SoftphoneManager()
         {
             this.MediaHandlers = new MediaHandlers();
-
+            this.ActivePhoneCalls = new ObservableCollection<IPhoneCall>();
             this.lockObj = new object();
             this.LineState = "";
 
@@ -223,6 +223,8 @@ namespace MySoftphone.UI.Model
                     return;
 
                 this.SelectedPhoneCall.Reject();
+                this.callLog.CallEnded(this.SelectedPhoneCall);
+                this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
             }
         }
 
@@ -234,6 +236,8 @@ namespace MySoftphone.UI.Model
                     return;
 
                 this.SelectedPhoneCall.HangUp();
+                this.callLog.CallEnded(this.SelectedPhoneCall);
+                this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
             }
         }
 
@@ -246,6 +250,8 @@ namespace MySoftphone.UI.Model
 
                 //this.SelectedPhoneCall.CallType == CallType.AudioVideo
                 this.SelectedPhoneCall.Answer(CallType.AudioVideo);
+                this.callLog.AddToCallLog(this.SelectedPhoneCall);
+                this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
             }
         }
 
@@ -577,6 +583,8 @@ namespace MySoftphone.UI.Model
 
                 this.ActivePhoneCalls.Add(call);
                 this.callLog.AddToCallLog(call);
+                this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
+
                 if (this.SelectedPhoneCall == null)
                     this.SelectedPhoneCall = call;
 

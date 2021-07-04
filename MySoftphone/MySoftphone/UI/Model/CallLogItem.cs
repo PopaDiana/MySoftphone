@@ -7,10 +7,20 @@ namespace MySoftphone.UI.Model
     {
         public CallLogItem(Call call)
         {
-            this.CallerName = call.CallerName;
-            this.Type = call.CallState;
-            this.StartTime = call.StartTime;
-            this.Duration = call.Duration;
+            if(call == null)
+            {
+                this.CallerName = string.Empty;
+                this.Type = CallState.Completed;
+                this.StartTime = DateTime.Now;
+                this.Duration = new TimeSpan(0);
+            }
+            else
+            {
+                this.CallerName = call.CallerName;
+                this.Type = call.CallState;
+                this.StartTime = call.StartTime;
+                this.Duration = call.Duration;
+            }
         }
 
         public string CallerName { get; set; }

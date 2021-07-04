@@ -44,7 +44,7 @@ namespace MySoftphone.UI.Model
             var account = phoneCall.PhoneLine.SIPAccount.AsSIPAddress(phoneCall.PhoneLine.Config.TransportType);
             DialInfo caller = new DialInfo(account);
 
-            this.CallerName = caller.CallerDisplay;
+            this.CallerName = string.IsNullOrEmpty(phoneCall.DialInfo.CallerDisplay) ? phoneCall.PhoneLine.SIPAccount.UserName : phoneCall.DialInfo.CallerDisplay;
             this.PhoneNumber = phoneCall.PhoneLine.SIPAccount.UserName;//caller.CallerID;
             this.Direction = this.GetCallDirection(phoneCall.CallType, phoneCall.IsIncoming);
             this.CallState = phoneCall.CallState;

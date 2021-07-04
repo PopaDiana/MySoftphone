@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:MySoftphone.UI.Themes">
 
     <Style x:Key="DialpadButtonTheme"  TargetType="{x:Type Button}">
-        <Setter Property="Width" Value="60"/>
+        <Setter Property="Width" Value="50"/>
         <Setter Property="BorderBrush">
             <Setter.Value>
                 <SolidColorBrush Color="#EAE0FC"/>
