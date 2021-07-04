@@ -387,6 +387,8 @@ namespace MySoftphone.UI.Model
         private void InitiateSoftphone()
         {
             this.softPhone = SoftPhoneFactory.CreateSoftPhone(MinPort, MaxPort);
+            this.softPhone.VideoEncoderQuality = VideoQuality.High;
+
             this.Log.LogMessage("Softphone was initiated");
 
             this.softPhone.IncomingCall += SoftPhone_IncomingCall;

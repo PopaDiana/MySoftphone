@@ -70,6 +70,7 @@ namespace MySoftphone.UI.View
             }
             catch (Exception ex)
             {
+                
             }
         }
 

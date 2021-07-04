@@ -63,6 +63,8 @@ namespace MySoftphone.UI.Model
         private void InitVideo()
         {
             this.WebCamera = WebCameraFactory.GetDefaultDevice();
+            this.WebCamera.DesiredFrameRate = 30;
+            this.WebCamera.Resolution = new Ozeki.OzResolution(640,480);
 
             this.LocalImageProvider = new DrawingImageProvider();
             this.RemoteImageProvider = new DrawingImageProvider();
