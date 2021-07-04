@@ -19,8 +19,12 @@ namespace MySoftphone.UI.Model
 
         private List<CallLogItem> callLogList { get; set; }
 
+        private Dictionary<IPhoneCall, Call> callsRecorder { get; set; }
+
         public CallLog()
         {
+            callsRecorder = new Dictionary<IPhoneCall, Call>();
+
             Directory.CreateDirectory(dir);
 
             filePath = Path.Combine(dir, jsonFileName);
@@ -36,12 +40,17 @@ namespace MySoftphone.UI.Model
             return this.callLogList;
         }
 
-        public void AddToCallLog(IPhoneCall phoneCall)
+        public void AddToCallLog(IPhoneCall phoneCall, bool ended = false)
         {
             if (phoneCall == null)
                 return;
 
-            CallLogItem item = new CallLogItem(new Call(phoneCall));
+            Call call = new Call(phoneCall);
+            CallLogItem item = new CallLogItem(call);
+            
+            if(!ended)
+                this.callsRecorder.Add(phoneCall, call);
+
             this.callLogList.Add(item);
             this.callLogList.Add(item);
             this.OrderCallLogs();
@@ -77,16 +86,38 @@ namespace MySoftphone.UI.Model
             if (jsonList == null)
                 return new List<CallLogItem>();
 
-            jsonList.OrderBy(c => c.Date.Year).ThenBy(c => c.Date.Month)
-                .ThenBy(c => c.Date.Day).ThenBy(c => c.Date.Hour).ThenBy(c => c.Date.Minute);
+            jsonList.OrderBy(c => c.StartTime.Year).ThenBy(c => c.StartTime.Month)
+                .ThenBy(c => c.StartTime.Day).ThenBy(c => c.StartTime.Hour).ThenBy(c => c.StartTime.Minute);
 
             return jsonList;
         }
 
         private void OrderCallLogs()
         {
-            this.callLogList.OrderBy(c => c.Date.Year).ThenBy(c => c.Date.Month)
-                .ThenBy(c => c.Date.Day).ThenBy(c => c.Date.Hour).ThenBy(c => c.Date.Minute);
+            this.callLogList.OrderBy(c => c.StartTime.Year).ThenBy(c => c.StartTime.Month)
+                .ThenBy(c => c.StartTime.Day).ThenBy(c => c.StartTime.Hour).ThenBy(c => c.StartTime.Minute);
+        }
+
+        internal void CallEnded(IPhoneCall call)
+        {
+            KeyValuePair<IPhoneCall, Call> listCall = this.callsRecorder.Where(c => c.Key.PhoneLine == call.PhoneLine
+            && c.Key.DialInfo.CallerDisplay == call.DialInfo.CallerDisplay
+            && c.Key.CallID == call.CallID).FirstOrDefault();
+
+            if (listCall.Value != null)
+            {
+                foreach( var callItem in this.callLogList)
+                {
+                    if (callItem.CallerName == listCall.Value.CallerName
+                        && callItem.StartTime == listCall.Value.StartTime)
+                    {
+                        callItem.Type = call.CallState;
+                        callItem.Duration = DateTime.Now - callItem.StartTime;
+                        this.SerializeCallLog();
+                        this.callsRecorder.Remove(listCall.Key);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using Ozeki.VoIP;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySoftphone.UI.Model
 {
@@ -13,7 +9,7 @@ namespace MySoftphone.UI.Model
         {
             this.CallerName = call.CallerName;
             this.Type = call.CallState;
-            this.Date = call.StartTime;
+            this.StartTime = call.StartTime;
             this.Duration = call.Duration;
         }
 
@@ -21,7 +17,7 @@ namespace MySoftphone.UI.Model
 
         public CallState Type { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime StartTime { get; set; }
 
         public TimeSpan Duration { get; set; }
 

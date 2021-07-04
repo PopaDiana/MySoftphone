@@ -1,4 +1,5 @@
 ﻿using MySoftphone.UI.ViewModel;
+using Ozeki;
 using Ozeki.Media;
 using Ozeki.Network;
 using Ozeki.VoIP;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 
 namespace MySoftphone.UI.Model
 {
@@ -145,15 +147,29 @@ namespace MySoftphone.UI.Model
             }
 
             this.callLog = new CallLog();
-            CallLogItems = new ObservableCollection<CallLogItem>()
+            this.CallLogItems = new ObservableCollection<CallLogItem>(callLog.GetCallLog());
+            //new ObservableCollection<CallLogItem>()
+            //{
+            //    new CallLogItem(new Call("Dia", "074" ,CallDirectionEnum.IncomingAudio, CallState.Error)),
+            //    new CallLogItem(new Call("Xyz", "989",CallDirectionEnum.OutgoingVideo, CallState.InCall)),
+            //    new CallLogItem(new Call("Jack", "870",CallDirectionEnum.IncomingVideo, CallState.Rejected))
+            //};
+
+            //
+            this.EnableCodecs();
+        }
+
+        private void EnableCodecs()
+        {
+            IEnumerable<CodecInfo> videoCodecs = this.softPhone.Codecs.Where(c => c.MediaType == CodecMediaType.Video);
+            foreach (var item in videoCodecs)
             {
-                new CallLogItem(new Call("Dia", "074" ,CallDirectionEnum.IncomingAudio, CallState.Error)),
-                new CallLogItem(new Call("Xyz", "989",CallDirectionEnum.OutgoingVideo, CallState.InCall)),
-                new CallLogItem(new Call("Jack", "870",CallDirectionEnum.IncomingVideo, CallState.Rejected))
-            };
+                CodecInfo info = item as CodecInfo;
+                if (info == null)
+                    continue;
 
-            //new ObservableCollection<CallLogItem> ( callLog.GetCallLog());
-
+                this.softPhone.EnableCodec(info.PayloadType);
+            }
         }
 
         #endregion Constructor
@@ -254,7 +270,7 @@ namespace MySoftphone.UI.Model
 
             this.SIPAccounts.Add(account);
             this.RegisteredSIPAccounts = new ObservableCollection<string>(this.SIPAccounts.GetRegisteredAccountsAsString());
-            this.PhoneLines = this.GetPhoneLines(this.SIPAccounts.GetSipAccounts());
+            this.PhoneLines.Add((phoneLine, account.SIPAccount));
         }
 
         public void RemoveSipAccount()
@@ -310,7 +326,7 @@ namespace MySoftphone.UI.Model
             var lineConfig = new PhoneLineConfiguration(account.SIPAccount);
             lineConfig.TransportType = selectedTransportType == TransportTypeEnum.TCP ? Ozeki.Network.TransportType.Tcp
                 : (selectedTransportType == TransportTypeEnum.TLS ? Ozeki.Network.TransportType.Tls : Ozeki.Network.TransportType.Udp);
-            lineConfig.NatConfig = new NatConfiguration(NatTraversalMethod.STUN, "", true); // stun server address
+            lineConfig.NatConfig = new NatConfiguration(NatTraversalMethod.STUN, null, true); // stun server address
             lineConfig.SRTPMode = Ozeki.Common.SRTPMode.None;
             //lineConfig.LocalAddress = SoftPhoneFactory.GetLocalIP();
             return lineConfig;
@@ -348,7 +364,9 @@ namespace MySoftphone.UI.Model
 
                 if (phoneCall.CallState.IsCallEnded())
                 {
-                    this.callLog.AddToCallLog(phoneCall);
+                    this.callLog.AddToCallLog(phoneCall, true);
+                    this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
+
                     return;
                 }
 
@@ -404,7 +422,7 @@ namespace MySoftphone.UI.Model
 
             CallState state = e.State;
 
-            OnPhoneCallStateChanged(call);
+            //OnPhoneCallStateChanged(call);
             CheckStopRingback();
             CheckStopRingtone();
 
@@ -453,7 +471,8 @@ namespace MySoftphone.UI.Model
                 {
                     DisposeCall(call);
 
-                    this.CallLogItems.Add(new CallLogItem(new Call(call)));
+                    this.callLog.CallEnded(call);
+                    this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
                     this.ActivePhoneCalls.Remove(call);
                 }
             }
@@ -499,7 +518,23 @@ namespace MySoftphone.UI.Model
 
         private void DisposeCall(IPhoneCall call)
         {
-            throw new NotImplementedException();
+            lock (lockObj)
+            {
+                UnsubscribeFromCallEvents(call);
+
+                if (call.Equals(this.SelectedPhoneCall))
+                    this.SelectedPhoneCall = null;
+            }
+        }
+
+        private void UnsubscribeFromCallEvents(IPhoneCall call)
+        {
+            if (call == null)
+                return;
+
+            call.CallStateChanged -= (Call_CallStateChanged);
+            call.DtmfReceived -= (Call_DtmfReceived);
+            call.DtmfStarted -= (Call_DtmfStarted);
         }
 
         private void SubscribeToLine(IPhoneLine phoneLine)
@@ -540,10 +575,13 @@ namespace MySoftphone.UI.Model
                 if (call == null)
                     return;
 
+                this.ActivePhoneCalls.Add(call);
+                this.callLog.AddToCallLog(call);
+                if (this.SelectedPhoneCall == null)
+                    this.SelectedPhoneCall = call;
+
                 SubscribeToCallEvents(call);
                 call.Start();
-
-                ActivePhoneCalls.Add(call);
 
                 if (this.SelectedPhoneCall == null)
                     this.SelectedPhoneCall = call;
@@ -568,6 +606,8 @@ namespace MySoftphone.UI.Model
         public event EventHandler<GeneralEventArgs<IPhoneCall>> IncomingCall;
 
         public event EventHandler<GeneralEventArgs<IPhoneCall>> PhoneCallStateChanged;
+
+        public event EventHandler<OzEventArgs<IPhoneLine>> PhoneLineStateChanged;
 
         private void OnIncomingCall(IPhoneCall call)
         {

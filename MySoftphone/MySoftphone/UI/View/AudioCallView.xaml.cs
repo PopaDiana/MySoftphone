@@ -1,4 +1,5 @@
 ﻿using MySoftphone.UI.ViewModel;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -25,6 +26,40 @@ namespace MySoftphone.UI.View
 
                 remoteVideoViewer.Start();
                 localVideoViewer.Start();
+            }
+        }
+
+        private void OnStartCameraPressed(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var audioView = (AudioCallViewModel)this.DataContext;
+                if (audioView != null && audioView.SoftphoneManager != null
+                    && audioView.SoftphoneManager.MediaHandlers != null)
+                {
+                    audioView.SoftphoneManager.MediaHandlers.StartVideo();
+                    this.localVideoViewer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void OnEndCameraPressed(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var audioView = (AudioCallViewModel)this.DataContext;
+                if (audioView != null && audioView.SoftphoneManager != null
+                    && audioView.SoftphoneManager.MediaHandlers != null)
+                {
+                    audioView.SoftphoneManager.MediaHandlers.StopVideo();
+                    this.localVideoViewer.Stop();
+                }
+            }
+            catch (Exception ex)
+            {
             }
         }
     }

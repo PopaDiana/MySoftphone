@@ -73,7 +73,7 @@ namespace MySoftphone.UI.Model
             this.videoConnector.Connect(this.phoneCallVideoReceiver, this.RemoteImageProvider);
             if (this.WebCamera != null)
             {
-                this.videoConnector.Connect(this.WebCamera.VideoChannel, LocalImageProvider);
+                this.videoConnector.Connect(this.WebCamera.VideoChannel, this.LocalImageProvider);
                 this.videoConnector.Connect(this.WebCamera.VideoChannel, this.phoneCallVideoSender);
             }
         }
@@ -208,6 +208,18 @@ namespace MySoftphone.UI.Model
                 return;
 
             this.dtmfPlayer.Start(signal);
+        }
+
+        public void StartVideo()
+        {
+            if (this.WebCamera != null)
+                this.WebCamera.Start();
+        }
+
+        public void StopVideo()
+        {
+            if (this.WebCamera != null)
+                this.WebCamera.Stop();
         }
     }
 }

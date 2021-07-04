@@ -151,7 +151,7 @@ namespace MySoftphone.UI.ViewModel
         private void Save()
         {
             SIPAccountModel account = new SIPAccountModel(this.DisplayName, this.UserName,
-                this.RegisterName, this.Password, this.Domain, this.TransportType);
+                this.RegisterName, this.Password, this.Domain, this.SelectedTransportType);
 
             if (account.IsValid())
             {

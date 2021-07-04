@@ -1,6 +1,5 @@
 ﻿using MySoftphone.MVVM;
 using MySoftphone.UI.Model;
-using Ozeki.Media;
 using Ozeki.VoIP;
 using System;
 using System.Collections.ObjectModel;
