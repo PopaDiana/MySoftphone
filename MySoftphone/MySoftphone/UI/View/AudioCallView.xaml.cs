@@ -1,4 +1,6 @@
-﻿using MySoftphone.UI.ViewModel;
+﻿using MySoftphone.UI.Model;
+using MySoftphone.UI.ViewModel;
+using Ozeki.VoIP;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,9 +12,17 @@ namespace MySoftphone.UI.View
     /// </summary>
     public partial class AudioCallView : UserControl
     {
+        private AudioCallViewModel viewModel;
+
         public AudioCallView()
         {
             InitializeComponent();
+            viewModel = (AudioCallViewModel)this.DataContext;
+            if(viewModel!= null && viewModel.SoftphoneManager!= null)
+            {
+                viewModel.SoftphoneManager.PhoneCallStateChanged += Model_PhoneCallStateChanged;
+            }
+            
         }
 
         private void CallsWindowLoaded(object sender, RoutedEventArgs e)
@@ -61,6 +71,16 @@ namespace MySoftphone.UI.View
             catch (Exception ex)
             {
             }
+        }
+
+        private void Model_PhoneCallStateChanged(object sender, GeneralEventArgs<IPhoneCall> e)
+        {
+            this.UpdatePhoneCalls();
+        }
+
+        private void UpdatePhoneCalls()
+        {
+            this.activeCallsLV.Dispatcher.Invoke(new Action(() => activeCallsLV.Items.Refresh()));
         }
     }
 }

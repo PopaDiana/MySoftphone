@@ -184,6 +184,7 @@ namespace MySoftphone.UI.ViewModel
                 if (!string.IsNullOrEmpty(this.TypedPhoneNumber))
                 {
                     this.SoftphoneManager.Call(CallType.Audio, this.TypedPhoneNumber);
+                    this.TypedPhoneNumber = string.Empty;
                 }
             }
             catch (Exception e)

@@ -72,6 +72,7 @@
     </ApplicationDefinition>
     <Compile Include="UI\Model\GeneralEventArgs.cs" />
     <Compile Include="UI\Model\MediaHandlers.cs" />
+    <Compile Include="UI\Model\ObservableList.cs" />
     <Compile Include="UI\Model\SoftphoneManager.cs" />
     <Compile Include="UI\Model\Call.cs" />
     <Compile Include="UI\Model\CallDirectionType.cs" />

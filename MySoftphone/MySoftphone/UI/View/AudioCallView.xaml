@@ -20,13 +20,13 @@
                             <RowDefinition Height="205"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ListView x:Name="activeCallsLV" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
+                        <ListView x:Name="activeCallsLV" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0" ItemsSource="{Binding SoftphoneManager.ActivePhoneCalls}" SelectedItem="{Binding SoftphoneManager.SelectedPhoneCall}">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
-                                    <GridViewColumn Width="210" Header="Caller Name" DisplayMemberBinding="{Binding CallerName}"/>
-                                    <GridViewColumn Width="110" Header="Phone number"/>
-                                    <GridViewColumn Width="100" Header="Direction"/>
-                                    <GridViewColumn Width="80" Header="Call State"/>
+                                    <GridViewColumn Width="170" Header="Caller Name" DisplayMemberBinding="{Binding DialInfo.CallerDisplay}"/>
+                                    <GridViewColumn Width="110" Header="Phone number" DisplayMemberBinding="{Binding PhoneLine.SIPAccount.UserName}"/>
+                                    <GridViewColumn Width="100" Header="Call type" DisplayMemberBinding="{Binding CallType}"/>
+                                    <GridViewColumn Width="80" Header="Call State" DisplayMemberBinding="{Binding CallState}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -35,7 +35,7 @@
                             <Button Margin="2,2,5,1" Content="Hang up" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnHangUpPressed}"/>
                             <Button Margin="2,2,5,1" Content="Reject" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnRejectPressed}"/>
                             <Button Margin="2,2,5,1" Content="Transfer" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnTransferPressed}"/>
-                            <Button Margin="80,2,5,1" Content="Save to agenda" Width="85" Height="25" Style="{StaticResource MyButtonTheme}" Command="{Binding OnSaveToAgendaPressed}"/>
+                            <Button Margin="140,2,5,1" Content="Save to agenda" Width="100" Height="25" Style="{StaticResource MyButtonTheme}" Command="{Binding OnSaveToAgendaPressed}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
@@ -48,7 +48,7 @@
                         <ListView x:Name="agendaLV" ItemsSource="{Binding AgendaItems, Mode=TwoWay}" SelectedItem="{Binding SelectedAgendaEntry}" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
-                                    <GridViewColumn Width="210" Header="Caller Name" DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Width="170" Header="Caller Name" DisplayMemberBinding="{Binding Name}"/>
                                     <GridViewColumn Width="150" Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
                                     <!--<GridViewColumn Width="100" Header="Direction"/>-->
                                 </GridView>
@@ -57,7 +57,7 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
                             <Button Margin="2,2,5,2" Content="Dial Audio" Width="80" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDialPressedA}"/>
                             <Button Margin="2,2,5,2" Content="Dial Video" Width="80" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDialPressedV}"/>
-                            <Button Margin="168,2,5,2" Content="Delete contact" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDeleteContactPressed}"/>
+                            <Button Margin="230,2,5,2" Content="Delete contact" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDeleteContactPressed}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
@@ -70,7 +70,7 @@
                         <ListView x:Name="callLogLV" ItemsSource="{Binding SoftphoneManager.CallLogItems, Mode=TwoWay}" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
-                                    <GridViewColumn Width="210" Header="Caller Name" DisplayMemberBinding="{Binding CallerName}"/>
+                                    <GridViewColumn Width="170" Header="Caller Name" DisplayMemberBinding="{Binding CallerName}"/>
                                     <GridViewColumn Width="80" Header="Type" DisplayMemberBinding="{Binding Type}"/>
                                     <GridViewColumn Width="150" Header="Start Time" DisplayMemberBinding="{Binding StartTime}"/>
                                     <GridViewColumn Width="70" Header="Duration" DisplayMemberBinding="{Binding Duration}"/>
@@ -79,7 +79,7 @@
                         </ListView>
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
                             <!--<Button Margin="2,2,5,2" Content="Dial" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDialPressed}"/>-->
-                            <Button Margin="340,2,5,2" Content="Clear logs" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnClearLogsPressed}"/>
+                            <Button Margin="400,2,5,2" Content="Clear logs" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnClearLogsPressed}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>

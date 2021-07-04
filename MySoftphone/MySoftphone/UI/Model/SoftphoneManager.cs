@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
+using utils;
 
 namespace MySoftphone.UI.Model
 {
@@ -74,18 +75,7 @@ namespace MySoftphone.UI.Model
             }
         }
 
-        public ObservableCollection<IPhoneCall> ActivePhoneCalls
-        {
-            get
-            {
-                return this.activePhoneCalls;
-            }
-            set
-            {
-                this.activePhoneCalls = value;
-                OnPropertyChanged("ActivePhoneCalls");
-            }
-        }
+        public ObservableList<IPhoneCall> ActivePhoneCalls { get; private set; }
 
         public IPhoneCall SelectedPhoneCall
         {
@@ -129,7 +119,7 @@ namespace MySoftphone.UI.Model
         public SoftphoneManager()
         {
             this.MediaHandlers = new MediaHandlers();
-            this.ActivePhoneCalls = new ObservableCollection<IPhoneCall>();
+            this.ActivePhoneCalls = new ObservableList<IPhoneCall>();
             this.lockObj = new object();
             this.LineState = "";
 
@@ -428,7 +418,7 @@ namespace MySoftphone.UI.Model
 
             CallState state = e.State;
 
-            //OnPhoneCallStateChanged(call);
+            OnPhoneCallStateChanged(call);
             CheckStopRingback();
             CheckStopRingtone();
 
@@ -615,8 +605,6 @@ namespace MySoftphone.UI.Model
 
         public event EventHandler<GeneralEventArgs<IPhoneCall>> PhoneCallStateChanged;
 
-        public event EventHandler<OzEventArgs<IPhoneLine>> PhoneLineStateChanged;
-
         private void OnIncomingCall(IPhoneCall call)
         {
             IncomingCall?.Invoke(this, new GeneralEventArgs<IPhoneCall>(call));
@@ -626,11 +614,6 @@ namespace MySoftphone.UI.Model
         {
             PhoneCallStateChanged?.Invoke(this, new GeneralEventArgs<IPhoneCall>(call));
         }
-
-        //private void OnPhoneLineStateChanged(IPhoneLine line)
-        //{
-        //    PhoneLineStateChanged?.Invoke(this, new GeneralEventArgs<IPhoneLine>(line));
-        //}
 
         #endregion Events
     }
