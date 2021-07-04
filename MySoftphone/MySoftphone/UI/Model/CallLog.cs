@@ -52,7 +52,6 @@ namespace MySoftphone.UI.Model
                 this.callsRecorder.Add(phoneCall, call);
 
             this.callLogList.Add(item);
-            this.callLogList.Add(item);
             this.OrderCallLogs();
             this.SerializeCallLog();
         }

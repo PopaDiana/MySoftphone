@@ -23,10 +23,9 @@
                         <ListView x:Name="activeCallsLV" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0" ItemsSource="{Binding SoftphoneManager.ActivePhoneCalls}" SelectedItem="{Binding SoftphoneManager.SelectedPhoneCall}">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
-                                    <GridViewColumn Width="170" Header="Caller Name" DisplayMemberBinding="{Binding DialInfo.CallerDisplay}"/>
-                                    <GridViewColumn Width="110" Header="Phone number" DisplayMemberBinding="{Binding PhoneLine.SIPAccount.UserName}"/>
-                                    <GridViewColumn Width="100" Header="Call type" DisplayMemberBinding="{Binding CallType}"/>
-                                    <GridViewColumn Width="80" Header="Call State" DisplayMemberBinding="{Binding CallState}"/>
+                                    <GridViewColumn Width="250" Header="Caller" DisplayMemberBinding="{Binding OtherParty}"/>
+                                    <GridViewColumn Width="130" Header="Call type" DisplayMemberBinding="{Binding CallType}"/>
+                                    <GridViewColumn Width="110" Header="Call State" DisplayMemberBinding="{Binding CallState}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -47,9 +46,8 @@
                         <ListView x:Name="agendaLV" ItemsSource="{Binding AgendaItems, Mode=TwoWay}" SelectedItem="{Binding SelectedAgendaEntry}" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
-                                    <GridViewColumn Width="170" Header="Caller Name" DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Width="250" Header="Caller Name" DisplayMemberBinding="{Binding Name}"/>
                                     <GridViewColumn Width="150" Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
-                                    <!--<GridViewColumn Width="100" Header="Direction"/>-->
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -69,11 +67,11 @@
                         <ListView x:Name="callLogLV" ItemsSource="{Binding SoftphoneManager.CallLogItems, Mode=TwoWay}" SelectedItem="{Binding SoftphoneManager.SelectedCallLogItem}" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
-                                    <GridViewColumn Width="110" Header="Caller Name" DisplayMemberBinding="{Binding CallerName}"/>
-                                    <GridViewColumn Width="100" Header="Phone Number" DisplayMemberBinding="{Binding PhoneNumber}"/>
-                                    <GridViewColumn Width="80" Header="Type" DisplayMemberBinding="{Binding Type}"/>
-                                    <GridViewColumn Width="110" Header="Start Time" DisplayMemberBinding="{Binding StartTime}"/>
-                                    <GridViewColumn Width="70" Header="Duration" DisplayMemberBinding="{Binding Duration}"/>
+                                    <GridViewColumn Width="210" Header="Caller Name" DisplayMemberBinding="{Binding CallerName}"/>
+                                    <GridViewColumn Width="110" Header="Phone Number" DisplayMemberBinding="{Binding PhoneNumber}"/>
+                                    <GridViewColumn Width="120" Header="Type" DisplayMemberBinding="{Binding Type}"/>
+                                    <GridViewColumn Width="120" Header="Start Time" DisplayMemberBinding="{Binding StartTime}"/>
+                                    <GridViewColumn Width="140" Header="Duration" DisplayMemberBinding="{Binding Duration}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -143,7 +141,7 @@
             <GroupBox Header="My Camera"  Margin="10,2,10,10" Padding="0" Foreground="White" FontSize="13">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <Button Margin="10,2,1,3" Content="Start Camera" Width="80" Height="25" Style="{StaticResource MyButtonTheme}" Grid.Row="5" Grid.Column="0" Click="OnStartCameraPressed" />
+                        <Button Margin="43,2,1,3" Content="Start Camera" Width="80" Height="25" Style="{StaticResource MyButtonTheme}" Grid.Row="5" Grid.Column="0" Click="OnStartCameraPressed" />
                         <Button Margin="30,2,1,3" Content="Stop Camera" Width="80" Height="25" Style="{StaticResource MyButtonTheme}" Grid.Row="5" Grid.Column="0" Click="OnEndCameraPressed" />
                     </StackPanel>
                     <video:VideoViewerWPF Width="280" Height="170" HorizontalAlignment="Center" Margin="4,7,0,0" Name="localVideoViewer" VerticalAlignment="Center" Background="Black" AllowDrop="True"/>

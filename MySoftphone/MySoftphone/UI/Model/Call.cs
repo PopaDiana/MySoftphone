@@ -43,25 +43,19 @@ namespace MySoftphone.UI.Model
 
             var account = phoneCall.PhoneLine.SIPAccount.AsSIPAddress(phoneCall.PhoneLine.Config.TransportType);
             DialInfo caller = new DialInfo(account);
-
-            this.CallerName = string.IsNullOrEmpty(phoneCall.DialInfo.CallerDisplay) ? phoneCall.PhoneLine.SIPAccount.UserName : phoneCall.DialInfo.CallerDisplay;
-            this.PhoneNumber = phoneCall.PhoneLine.SIPAccount.UserName;
+            if (!this.PhoneCall.IsIncoming)
+            {
+                this.CallerName = phoneCall.OtherParty.ToString();
+                this.PhoneNumber = phoneCall.DialInfo.Dialed;
+            }
+            else
+            {
+                this.CallerName = phoneCall.OtherParty.DisplayName;
+                this.PhoneNumber = phoneCall.OtherParty.UserName;
+            }
+            
             this.Direction = this.GetCallDirection(phoneCall.CallType, phoneCall.IsIncoming);
             this.CallState = phoneCall.CallState;
-            this.StartTime = DateTime.Now;
-            this.EndTime = new DateTime();
-            this.Duration = new TimeSpan(0);
-        }
-
-        public Call(string callerName,
-            string phoneNumber,
-            CallDirectionEnum direction,
-            CallState state)
-        {
-            this.CallerName = callerName;
-            this.PhoneNumber = phoneNumber;
-            this.Direction = direction;
-            this.CallState = state;
             this.StartTime = DateTime.Now;
             this.EndTime = new DateTime();
             this.Duration = new TimeSpan(0);
