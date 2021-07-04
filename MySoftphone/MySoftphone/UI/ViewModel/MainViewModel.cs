@@ -22,6 +22,8 @@ namespace MySoftphone.UI.ViewModel
 
         public AudioCallViewModel AudioCallVM { get; set; }
 
+        public LogViewModel LogVM { get; set; }
+
         public object CurrentView
         {
             get { return currentView; }
@@ -51,16 +53,20 @@ namespace MySoftphone.UI.ViewModel
 
         public RelayCommand AudioCallViewCommand { get; set; }
 
+        public RelayCommand LogViewCommand { get; set; }
+
         #endregion Properties
 
         #region Constructor
 
         public MainViewModel()
         {
-            this.SoftphoneManager = new SoftphoneManager();
-            SipRegVM = new SipRegistrationViewModel(this.SoftphoneManager);
-            AudioCallVM = new AudioCallViewModel(this.SoftphoneManager);
-            CurrentView = SipRegVM;
+            this.LogVM = new LogViewModel();
+            this.LogVM.LogMessage("Application started");
+            this.SoftphoneManager = new SoftphoneManager(this.LogVM);
+            this.SipRegVM = new SipRegistrationViewModel(this.SoftphoneManager, this.LogVM);
+            this.AudioCallVM = new AudioCallViewModel(this.SoftphoneManager, this.LogVM);
+            this.CurrentView = SipRegVM;
 
             SipRegViewCommand = new RelayCommand(o =>
             {
@@ -70,6 +76,11 @@ namespace MySoftphone.UI.ViewModel
             AudioCallViewCommand = new RelayCommand(o =>
             {
                 CurrentView = AudioCallVM;
+            });
+
+            LogViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = LogVM;
             });
 
             if(this.SoftphoneManager.RegisteredSIPAccounts.Count > 0)

@@ -24,6 +24,10 @@
             <DataTemplate DataType="{x:Type viewModel:AudioCallViewModel}">
                 <view:AudioCallView/>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:LogViewModel}">
+                <view:LogView/>
+            </DataTemplate>
             
         </ResourceDictionary>
     </Application.Resources>

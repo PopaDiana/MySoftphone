@@ -1,5 +1,4 @@
 ﻿using MySoftphone.UI.ViewModel;
-using Ozeki;
 using Ozeki.Media;
 using Ozeki.Network;
 using Ozeki.VoIP;
@@ -30,11 +29,15 @@ namespace MySoftphone.UI.Model
 
         #region Public Properties
 
+        public LogViewModel Log { get; }
+
         public MediaHandlers MediaHandlers { get; set; }
 
         public RegisteredSIPAccounts SIPAccounts { get; set; }
 
         public List<(IPhoneLine, SIPAccount)> PhoneLines { get; set; }
+
+        public ObservableList<IPhoneCall> ActivePhoneCalls { get; private set; }
 
         public string SelectedSIPAccount
         {
@@ -88,8 +91,6 @@ namespace MySoftphone.UI.Model
             }
         }
 
-        public ObservableList<IPhoneCall> ActivePhoneCalls { get; private set; }
-
         public IPhoneCall SelectedPhoneCall
         {
             get
@@ -129,8 +130,9 @@ namespace MySoftphone.UI.Model
 
         #region Constructor
 
-        public SoftphoneManager()
+        public SoftphoneManager(LogViewModel logVM)
         {
+            this.Log = logVM;
             this.MediaHandlers = new MediaHandlers();
             this.ActivePhoneCalls = new ObservableList<IPhoneCall>();
             this.lockObj = new object();
@@ -156,19 +158,6 @@ namespace MySoftphone.UI.Model
             this.EnableCodecs();
         }
 
-        private void EnableCodecs()
-        {
-            IEnumerable<CodecInfo> videoCodecs = this.softPhone.Codecs.Where(c => c.MediaType == CodecMediaType.Video);
-            foreach (var item in videoCodecs)
-            {
-                CodecInfo info = item as CodecInfo;
-                if (info == null)
-                    continue;
-
-                this.softPhone.EnableCodec(info.PayloadType);
-            }
-        }
-
         #endregion Constructor
 
         #region Public Methods
@@ -187,6 +176,8 @@ namespace MySoftphone.UI.Model
             line.Subscription.Unsubscribe(isips);
             this.linesSubscriptions.Remove((line, isips));
             softPhone.UnregisterPhoneLine(line);
+
+            this.Log.LogMessage("Unregistered from active line.");
         }
 
         public void Call(CallType callType, string phoneNr)
@@ -196,7 +187,7 @@ namespace MySoftphone.UI.Model
             {
                 if (!line.RegState.IsRegistered())
                 {
-                    //logmess
+                    this.Log.LogMessage("You are not registered to the selected phone line. Call was not initiated...");
                 }
                 else
                 {
@@ -207,8 +198,14 @@ namespace MySoftphone.UI.Model
 
                         IPhoneCall call = softPhone.CreateCallObject(line, dialParams);
                         this.StartPhoneCall(call);
+
+                        this.Log.LogMessage("Call was started");
                     }
                 }
+            }
+            else
+            {
+                this.Log.LogMessage("No phone line was found...");
             }
         }
 
@@ -221,6 +218,8 @@ namespace MySoftphone.UI.Model
                 return;
 
             this.BlindTransferCall(typedPhoneNumber);
+
+            this.Log.LogMessage("Call was blindly transfered to selected phone number");
         }
 
         public void RejectCall()
@@ -234,6 +233,8 @@ namespace MySoftphone.UI.Model
                 this.callLog.CallEnded(this.SelectedPhoneCall);
                 this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
             }
+
+            this.Log.LogMessage("Call was rejected");
         }
 
         public void HangUpCall()
@@ -248,6 +249,8 @@ namespace MySoftphone.UI.Model
                 this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
                 this.SelectedCallLogItem = this.CallLogItems.FirstOrDefault();
             }
+
+            this.Log.LogMessage("Call was hanged up");
         }
 
         public void PickUpCall()
@@ -275,6 +278,7 @@ namespace MySoftphone.UI.Model
             if (line != null)
             {
                 softPhone.RegisterPhoneLine(line);
+                this.Log.LogMessage("Registered to phone line");
             }
         }
 
@@ -282,6 +286,7 @@ namespace MySoftphone.UI.Model
         {
             var lineConfig = this.CreateLineConfig(account, selectedTransportType);
             IPhoneLine phoneLine = softPhone.CreatePhoneLine(lineConfig);
+            this.Log.LogMessage("Phone line created");
             this.SubscribeToLine(phoneLine);
 
             this.SIPAccounts.Add(account);
@@ -298,11 +303,13 @@ namespace MySoftphone.UI.Model
                 this.SIPAccounts.Remove(this.SelectedSIPAccount);
                 this.RegisteredSIPAccounts = new ObservableCollection<string>(this.SIPAccounts.GetRegisteredAccountsAsString());
                 this.LineState = string.Empty;
+                this.Log.LogMessage("SIP account removed.");
 
                 if (this.RegisteredSIPAccounts.Count > 0)
                 {
                     this.SelectedSIPAccount = this.RegisteredSIPAccounts[0];
                     this.LineState = "Unknown";
+                    this.Log.LogMessage("Selected phone line state is unknown");
                 }
             }
         }
@@ -314,20 +321,10 @@ namespace MySoftphone.UI.Model
                 this.CallLogItems.Clear();
                 this.callLog.UpdateCallLogs(this.CallLogItems.ToList());
                 this.SelectedCallLogItem = null;
+
+                this.Log.LogMessage("Call log cleared.");
             }
         }
-
-        internal void AddToAgenda()
-        {
-            if(this.SelectedCallLogItem != null)
-            {
-                
-            }
-        }
-
-        #endregion Public Methods
-
-        #region Private Methods
 
         public void BlindTransferCall(string target)
         {
@@ -340,6 +337,22 @@ namespace MySoftphone.UI.Model
                     return;
 
                 this.SelectedPhoneCall.BlindTransfer(target);
+            }
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+        private void EnableCodecs()
+        {
+            IEnumerable<CodecInfo> videoCodecs = this.softPhone.Codecs.Where(c => c.MediaType == CodecMediaType.Video);
+            foreach (var item in videoCodecs)
+            {
+                CodecInfo info = item as CodecInfo;
+                if (info == null)
+                    continue;
+
+                this.softPhone.EnableCodec(info.PayloadType);
             }
         }
 
@@ -365,30 +378,16 @@ namespace MySoftphone.UI.Model
             var lineConfig = new PhoneLineConfiguration(account.SIPAccount);
             lineConfig.TransportType = selectedTransportType == TransportTypeEnum.TCP ? Ozeki.Network.TransportType.Tcp
                 : (selectedTransportType == TransportTypeEnum.TLS ? Ozeki.Network.TransportType.Tls : Ozeki.Network.TransportType.Udp);
-            lineConfig.NatConfig = new NatConfiguration(NatTraversalMethod.STUN, null, true); // stun server address
+            lineConfig.NatConfig = new NatConfiguration(NatTraversalMethod.STUN, null, true);
             lineConfig.SRTPMode = Ozeki.Common.SRTPMode.None;
-            //lineConfig.LocalAddress = SoftPhoneFactory.GetLocalIP();
+
             return lineConfig;
         }
 
         private void InitiateSoftphone()
         {
-            //softphone should not exist on initialization
-            //if (this.softPhone != null)
-            //{
-            //    // unregister the phone lines
-            //    foreach (var account in this.SIPAccounts.GetSipAccounts())
-            //    {
-            //        if (account.PhoneLine.RegState == RegState.RegistrationSucceeded)
-            //            softPhone.UnregisterPhoneLine(account.PhoneLine);
-            //    }
-
-            //    softPhone.IncomingCall -= (SoftPhone_IncomingCall);
-            //    softPhone.Close();
-            //}
-
-            // create new softphone
             this.softPhone = SoftPhoneFactory.CreateSoftPhone(MinPort, MaxPort);
+            this.Log.LogMessage("Softphone was initiated");
 
             this.softPhone.IncomingCall += SoftPhone_IncomingCall;
         }
@@ -432,22 +431,12 @@ namespace MySoftphone.UI.Model
             phoneCall.DtmfStarted += Call_DtmfStarted;
         }
 
-        /// <summary>
-        /// This will be called when the other party started DTMF signaling.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Call_DtmfStarted(object sender, VoIPEventArgs<DtmfInfo> e)
         {
             int signal = e.Item.Signal.Signal;
             MediaHandlers.StartDtmf(signal);
         }
 
-        /// <summary>
-        /// Called when the other party stopped DTMF signaling.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Call_DtmfReceived(object sender, VoIPEventArgs<DtmfInfo> e)
         {
             DtmfSignal signal = e.Item.Signal;
@@ -582,6 +571,7 @@ namespace MySoftphone.UI.Model
         {
             if (phoneLine == null)
                 return;
+            this.Log.LogMessage("Subscribed to phone line");
 
             phoneLine.RegistrationStateChanged += Line_RegistrationStateChanged;
         }
@@ -605,8 +595,6 @@ namespace MySoftphone.UI.Model
             {
                 this.LineState = state.ToString();
             }
-            //OnPhoneLineStateChanged(line);
-            //OnPropertyChanged("SelectedLine.RegisteredInfo");
         }
 
         private void StartPhoneCall(IPhoneCall call)

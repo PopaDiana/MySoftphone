@@ -70,6 +70,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UI\BuilderToStringConverter.cs" />
     <Compile Include="UI\Model\GeneralEventArgs.cs" />
     <Compile Include="UI\Model\MediaHandlers.cs" />
     <Compile Include="UI\Model\ObservableList.cs" />
@@ -84,11 +85,15 @@
     <Compile Include="UI\Model\RegisteredSIPAccounts.cs" />
     <Compile Include="UI\Model\TransportType.cs" />
     <Compile Include="UI\ViewModel\AudioCallViewModel.cs" />
+    <Compile Include="UI\ViewModel\LogViewModel.cs" />
     <Compile Include="UI\ViewModel\MainViewModel.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="UI\ViewModel\SipRegistrationViewModel.cs" />
     <Compile Include="UI\View\AudioCallView.xaml.cs">
       <DependentUpon>AudioCallView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\LogView.xaml.cs">
+      <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\View\SipRegistrationView.xaml.cs">
       <DependentUpon>SipRegistrationView.xaml</DependentUpon>
@@ -134,6 +139,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\View\AudioCallView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\View\LogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -20,6 +20,7 @@ namespace MySoftphone.UI.ViewModel
         #endregion Private Fields
 
         #region Properties
+        public LogViewModel Log { get; private set; }
 
         public SoftphoneManager SoftphoneManager { get; }
 
@@ -120,8 +121,9 @@ namespace MySoftphone.UI.ViewModel
 
         #region Constructors
 
-        public SipRegistrationViewModel(SoftphoneManager softphoneManager)
+        public SipRegistrationViewModel(SoftphoneManager softphoneManager, LogViewModel logVM)
         {
+            this.Log = logVM;
             this.SoftphoneManager = softphoneManager;
             this.TransportTypes = new ObservableCollection<TransportTypeEnum>() { TransportTypeEnum.TCP, TransportTypeEnum.UDP, TransportTypeEnum.TLS };
             this.SelectedTransportType = this.TransportTypes[0];
@@ -156,6 +158,11 @@ namespace MySoftphone.UI.ViewModel
             if (account.IsValid())
             {
                 this.SoftphoneManager.SaveSIPAccount(account, this.SelectedTransportType);
+                this.Log.LogMessage("SIP account saved");
+            }
+            else
+            {
+                this.Log.LogMessage("Some of the introduced data was not valid. SIP account was not created");
             }
 
             this.UserName = string.Empty;
@@ -174,6 +181,7 @@ namespace MySoftphone.UI.ViewModel
             }
             catch (Exception e)
             {
+                this.Log.LogMessage("Something went wrong while trying to remove sip account: " + e.Message);
             }
         }
 
@@ -185,6 +193,7 @@ namespace MySoftphone.UI.ViewModel
             }
             catch (Exception e)
             {
+                this.Log.LogMessage("Something went wrong while trying to unregister from phone line: " + e.Message);
             }
         }
 
@@ -196,6 +205,7 @@ namespace MySoftphone.UI.ViewModel
             }
             catch (Exception e)
             {
+                this.Log.LogMessage("Something went wrong while trying to register from phone line: " + e.Message);
             }
         }
 

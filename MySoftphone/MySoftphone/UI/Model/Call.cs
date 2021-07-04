@@ -1,14 +1,9 @@
-﻿using Ozeki.Network;
-using Ozeki.VoIP;
+﻿using Ozeki.VoIP;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySoftphone.UI.Model
 {
-    class Call
+    internal class Call
     {
         public string CallerName;
 
@@ -53,7 +48,7 @@ namespace MySoftphone.UI.Model
                 this.CallerName = phoneCall.OtherParty.DisplayName;
                 this.PhoneNumber = phoneCall.OtherParty.UserName;
             }
-            
+
             this.Direction = this.GetCallDirection(phoneCall.CallType, phoneCall.IsIncoming);
             this.CallState = phoneCall.CallState;
             this.StartTime = DateTime.Now;
@@ -77,6 +72,7 @@ namespace MySoftphone.UI.Model
                         return CallDirectionEnum.IncomingAudio;
                     else
                         return CallDirectionEnum.OutgoingAudio;
+
                 case CallType.AudioVideo:
                 case CallType.Video:
                     if (isIncoming)

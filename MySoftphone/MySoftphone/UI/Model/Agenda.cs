@@ -34,6 +34,9 @@ namespace MySoftphone.UI.Model
 
         public void AddToAgenda(Caller caller)
         {
+            if (this.callersList.Select(c => c.PhoneNumber == caller.PhoneNumber).Any())
+                return;
+
             this.callersList.Add(caller);
             this.callersList.OrderBy(c => c.Name);
 

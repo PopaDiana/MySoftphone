@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:MySoftphone.UI.View"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:video="OzVideoViewerWPF"
-             xmlns:Camera="clr-namespace:Ozeki.Camera;assembly=OzekiSDK" x:Class="MySoftphone.UI.View.AudioCallView"
+             xmlns:Camera="clr-namespace:Ozeki.Camera;assembly=OzekiSDK" 
+             x:Class="MySoftphone.UI.View.AudioCallView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="CallsWindowLoaded">

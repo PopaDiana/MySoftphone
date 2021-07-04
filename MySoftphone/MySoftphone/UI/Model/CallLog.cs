@@ -4,12 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySoftphone.UI.Model
 {
-    class CallLog
+    internal class CallLog
     {
         private string dir = "JsonFiles";
 
@@ -28,7 +26,7 @@ namespace MySoftphone.UI.Model
             Directory.CreateDirectory(dir);
 
             filePath = Path.Combine(dir, jsonFileName);
-            
+
             if (!File.Exists(filePath))
                 File.WriteAllText(filePath, string.Empty);
 
@@ -47,8 +45,8 @@ namespace MySoftphone.UI.Model
 
             Call call = new Call(phoneCall);
             CallLogItem item = new CallLogItem(call);
-            
-            if(!ended)
+
+            if (!ended)
                 this.callsRecorder.Add(phoneCall, call);
 
             this.callLogList.Add(item);
@@ -105,7 +103,7 @@ namespace MySoftphone.UI.Model
 
             if (listCall.Value != null)
             {
-                foreach( var callItem in this.callLogList)
+                foreach (var callItem in this.callLogList)
                 {
                     if (callItem.CallerName == listCall.Value.CallerName
                         && callItem.StartTime == listCall.Value.StartTime)

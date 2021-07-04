@@ -78,14 +78,17 @@ namespace MySoftphone.UI.ViewModel
         }
 
         public SoftphoneManager SoftphoneManager { get; }
+       
+        public LogViewModel Log { get; private set; }
 
         #endregion Properties
 
         #region Constructors
 
-        public AudioCallViewModel(SoftphoneManager softphoneManager)
+        public AudioCallViewModel(SoftphoneManager softphoneManager, LogViewModel logVM)
         {
             this.SoftphoneManager = softphoneManager;
+            this.Log = logVM;
             agenda = new Agenda();
             AgendaItems = new ObservableCollection<Caller>(agenda.GetAgenda());
 
@@ -166,11 +169,17 @@ namespace MySoftphone.UI.ViewModel
                         this.SoftphoneManager.SelectedCallLogItem.PhoneNumber));
                     this.AgendaItems = new ObservableCollection<Caller>(this.agenda.GetAgenda());
                     this.SelectedAgendaEntry = this.AgendaItems.FirstOrDefault();
+
+                    this.Log.LogMessage("Caller was saved to agenda");
+                }
+                else
+                {
+                    this.Log.LogMessage("No call log registration was selected while trying to save contact to agenda");
                 }
             }
             catch(Exception e)
             {
-
+                this.Log.LogMessage("Something went wrong while trying to Add to agenda: " + e.Message);
             }
         }
 
@@ -183,9 +192,14 @@ namespace MySoftphone.UI.ViewModel
                     this.SoftphoneManager.Call(CallType.AudioVideo, this.TypedPhoneNumber);
                     this.TypedPhoneNumber = string.Empty;
                 }
+                else
+                {
+                    this.Log.LogMessage("No phone number was typed... Call could not be initiated");
+                }
             }
             catch (Exception e)
             {
+                this.Log.LogMessage("Something went wrong while initiating the video phone call: " + e.Message);
             }
         }
 
@@ -198,9 +212,14 @@ namespace MySoftphone.UI.ViewModel
                     this.SoftphoneManager.Call(CallType.Audio, this.TypedPhoneNumber);
                     this.TypedPhoneNumber = string.Empty;
                 }
+                else
+                {
+                    this.Log.LogMessage("No phone number was typed... Call could not be initiated");
+                }
             }
             catch (Exception e)
             {
+                this.Log.LogMessage("Something went wrong while initiating the audio phone call: " + e.Message);
             }
         }
 
@@ -212,10 +231,14 @@ namespace MySoftphone.UI.ViewModel
                 {
                     this.SoftphoneManager.TransferCall(this.TypedPhoneNumber);
                 }
+                else
+                {
+                    this.Log.LogMessage("No phone number to transfer call to was found....");
+                }
             }
             catch (Exception e)
             {
-
+                this.Log.LogMessage("Something went wrong while transfer the phone call: " + e.Message);
             }
         }
 
@@ -227,6 +250,7 @@ namespace MySoftphone.UI.ViewModel
             }
             catch (Exception e)
             {
+                this.Log.LogMessage("Something went wrong while rejection the phone call: " + e.Message);
             }
         }
 
@@ -238,6 +262,7 @@ namespace MySoftphone.UI.ViewModel
             }
             catch (Exception e)
             {
+                this.Log.LogMessage("Something went wrong while hanging up: " + e.Message);
             }
         }
 
@@ -249,6 +274,7 @@ namespace MySoftphone.UI.ViewModel
             }
             catch (Exception e)
             {
+                this.Log.LogMessage("Something went wrong while answering the call: " + e.Message);
             }
         }
 
@@ -259,6 +285,11 @@ namespace MySoftphone.UI.ViewModel
                 this.AgendaItems.Remove(this.SelectedAgendaEntry);
                 this.SelectedAgendaEntry = null;
                 this.agenda.UpdateAgenda(this.AgendaItems.ToList());
+                this.Log.LogMessage("Contact deleted from agenda.");
+            }
+            else
+            {
+                this.Log.LogMessage("No contact was deleted. Make sure you select an entry.");
             }
         }
 
@@ -270,9 +301,14 @@ namespace MySoftphone.UI.ViewModel
                 {
                     this.SoftphoneManager.Call(CallType.Audio, this.SelectedAgendaEntry.PhoneNumber);
                 }
+                else
+                {
+                    this.Log.LogMessage("The call was not initiated. Make sure you select an agenda entry.");
+                }
             }
             catch (Exception e)
             {
+                this.Log.LogMessage("Something was wrong while initiating the phone call: "+ e.Message);
             }
         }
 
@@ -284,15 +320,21 @@ namespace MySoftphone.UI.ViewModel
                 {
                     this.SoftphoneManager.Call(CallType.AudioVideo, this.SelectedAgendaEntry.PhoneNumber);
                 }
+                else
+                {
+                    this.Log.LogMessage("The call was not initiated. Make sure you select an agenda entry.");
+                }
             }
             catch (Exception e)
             {
+                this.Log.LogMessage("Something was wrong while initiating the video phone call: " + e.Message);
             }
         }
 
         private void ClearLogsPressed()
         {
             this.SoftphoneManager.ClearCallLog();
+            this.Log.LogMessage("The call logs were deleted");
         }
 
         #endregion Private Methods
