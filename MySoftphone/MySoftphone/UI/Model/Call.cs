@@ -45,7 +45,7 @@ namespace MySoftphone.UI.Model
             DialInfo caller = new DialInfo(account);
 
             this.CallerName = string.IsNullOrEmpty(phoneCall.DialInfo.CallerDisplay) ? phoneCall.PhoneLine.SIPAccount.UserName : phoneCall.DialInfo.CallerDisplay;
-            this.PhoneNumber = phoneCall.PhoneLine.SIPAccount.UserName;//caller.CallerID;
+            this.PhoneNumber = phoneCall.PhoneLine.SIPAccount.UserName;
             this.Direction = this.GetCallDirection(phoneCall.CallType, phoneCall.IsIncoming);
             this.CallState = phoneCall.CallState;
             this.StartTime = DateTime.Now;

@@ -23,7 +23,7 @@ namespace MySoftphone.UI.Model
         private object lockObj;
         private CallLog callLog;
         private ObservableCollection<CallLogItem> callLogItems;
-        private ObservableCollection<IPhoneCall> activePhoneCalls;
+        private CallLogItem selectedCallLogItem;
         private IPhoneCall selectedPhoneCall;
         private List<(IPhoneLine, ISIPSubscription)> linesSubscriptions;
         private string lineState;
@@ -72,6 +72,19 @@ namespace MySoftphone.UI.Model
             {
                 this.callLogItems = value;
                 OnPropertyChanged("CallLogItems");
+            }
+        }
+
+        public CallLogItem SelectedCallLogItem
+        {
+            get
+            {
+                return this.selectedCallLogItem;
+            }
+            set
+            {
+                this.selectedCallLogItem = value;
+                OnPropertyChanged("SelectedCallLogItem");
             }
         }
 
@@ -138,14 +151,8 @@ namespace MySoftphone.UI.Model
 
             this.callLog = new CallLog();
             this.CallLogItems = new ObservableCollection<CallLogItem>(callLog.GetCallLog());
-            //new ObservableCollection<CallLogItem>()
-            //{
-            //    new CallLogItem(new Call("Dia", "074" ,CallDirectionEnum.IncomingAudio, CallState.Error)),
-            //    new CallLogItem(new Call("Xyz", "989",CallDirectionEnum.OutgoingVideo, CallState.InCall)),
-            //    new CallLogItem(new Call("Jack", "870",CallDirectionEnum.IncomingVideo, CallState.Rejected))
-            //};
+            this.SelectedCallLogItem = this.CallLogItems.FirstOrDefault();
 
-            //
             this.EnableCodecs();
         }
 
@@ -205,6 +212,17 @@ namespace MySoftphone.UI.Model
             }
         }
 
+        public void TransferCall(string typedPhoneNumber)
+        {
+            if (this.SelectedPhoneCall == null)
+                return;
+
+            if (!this.SelectedPhoneCall.CallState.IsInCall())
+                return;
+
+            this.BlindTransferCall(typedPhoneNumber);
+        }
+
         public void RejectCall()
         {
             lock (lockObj)
@@ -228,6 +246,7 @@ namespace MySoftphone.UI.Model
                 this.SelectedPhoneCall.HangUp();
                 this.callLog.CallEnded(this.SelectedPhoneCall);
                 this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
+                this.SelectedCallLogItem = this.CallLogItems.FirstOrDefault();
             }
         }
 
@@ -242,6 +261,7 @@ namespace MySoftphone.UI.Model
                 this.SelectedPhoneCall.Answer(CallType.AudioVideo);
                 this.callLog.AddToCallLog(this.SelectedPhoneCall);
                 this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
+                this.SelectedCallLogItem = this.CallLogItems.FirstOrDefault();
             }
         }
 
@@ -293,12 +313,35 @@ namespace MySoftphone.UI.Model
             {
                 this.CallLogItems.Clear();
                 this.callLog.UpdateCallLogs(this.CallLogItems.ToList());
+                this.SelectedCallLogItem = null;
+            }
+        }
+
+        internal void AddToAgenda()
+        {
+            if(this.SelectedCallLogItem != null)
+            {
+                
             }
         }
 
         #endregion Public Methods
 
         #region Private Methods
+
+        public void BlindTransferCall(string target)
+        {
+            lock (lockObj)
+            {
+                if (string.IsNullOrEmpty(target))
+                    return;
+
+                if (this.SelectedPhoneCall == null)
+                    return;
+
+                this.SelectedPhoneCall.BlindTransfer(target);
+            }
+        }
 
         private List<(IPhoneLine, SIPAccount)> GetPhoneLines(List<SIPAccountModel> accuntsList)
         {
@@ -362,6 +405,7 @@ namespace MySoftphone.UI.Model
                 {
                     this.callLog.AddToCallLog(phoneCall, true);
                     this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
+                    this.SelectedCallLogItem = this.CallLogItems.FirstOrDefault();
 
                     return;
                 }
@@ -469,6 +513,7 @@ namespace MySoftphone.UI.Model
 
                     this.callLog.CallEnded(call);
                     this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
+                    this.SelectedCallLogItem = this.CallLogItems.FirstOrDefault();
                     this.ActivePhoneCalls.Remove(call);
                 }
             }
@@ -574,6 +619,7 @@ namespace MySoftphone.UI.Model
                 this.ActivePhoneCalls.Add(call);
                 this.callLog.AddToCallLog(call);
                 this.CallLogItems = new ObservableCollection<CallLogItem>(this.callLog.GetCallLog());
+                this.SelectedCallLogItem = this.CallLogItems.FirstOrDefault();
 
                 if (this.SelectedPhoneCall == null)
                     this.SelectedPhoneCall = call;

@@ -158,8 +158,20 @@ namespace MySoftphone.UI.ViewModel
 
         private void SaveToAgendaPressed()
         {
-            //check if number valid
-            //save do agenda file
+            try
+            {
+                if (this.SoftphoneManager.SelectedCallLogItem != null)
+                {
+                    this.agenda.AddToAgenda(new Caller(this.SoftphoneManager.SelectedCallLogItem.CallerName,
+                        this.SoftphoneManager.SelectedCallLogItem.PhoneNumber));
+                    this.AgendaItems = new ObservableCollection<Caller>(this.agenda.GetAgenda());
+                    this.SelectedAgendaEntry = this.AgendaItems.FirstOrDefault();
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         private void VideoCallPressed()
@@ -194,6 +206,17 @@ namespace MySoftphone.UI.ViewModel
 
         private void TransferPressed()
         {
+            try
+            {
+                if(string.IsNullOrEmpty(this.TypedPhoneNumber))
+                {
+                    this.SoftphoneManager.TransferCall(this.TypedPhoneNumber);
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         private void RejectPressed()

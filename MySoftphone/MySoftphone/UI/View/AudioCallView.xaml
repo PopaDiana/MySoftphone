@@ -35,7 +35,6 @@
                             <Button Margin="2,2,5,1" Content="Hang up" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnHangUpPressed}"/>
                             <Button Margin="2,2,5,1" Content="Reject" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnRejectPressed}"/>
                             <Button Margin="2,2,5,1" Content="Transfer" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnTransferPressed}"/>
-                            <Button Margin="140,2,5,1" Content="Save to agenda" Width="100" Height="25" Style="{StaticResource MyButtonTheme}" Command="{Binding OnSaveToAgendaPressed}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
@@ -67,19 +66,20 @@
                             <RowDefinition Height="205"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ListView x:Name="callLogLV" ItemsSource="{Binding SoftphoneManager.CallLogItems, Mode=TwoWay}" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
+                        <ListView x:Name="callLogLV" ItemsSource="{Binding SoftphoneManager.CallLogItems, Mode=TwoWay}" SelectedItem="{Binding SoftphoneManager.SelectedCallLogItem}" Height="205" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,1,0" BorderThickness="0">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
-                                    <GridViewColumn Width="170" Header="Caller Name" DisplayMemberBinding="{Binding CallerName}"/>
+                                    <GridViewColumn Width="110" Header="Caller Name" DisplayMemberBinding="{Binding CallerName}"/>
+                                    <GridViewColumn Width="100" Header="Phone Number" DisplayMemberBinding="{Binding PhoneNumber}"/>
                                     <GridViewColumn Width="80" Header="Type" DisplayMemberBinding="{Binding Type}"/>
-                                    <GridViewColumn Width="150" Header="Start Time" DisplayMemberBinding="{Binding StartTime}"/>
+                                    <GridViewColumn Width="110" Header="Start Time" DisplayMemberBinding="{Binding StartTime}"/>
                                     <GridViewColumn Width="70" Header="Duration" DisplayMemberBinding="{Binding Duration}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
-                            <!--<Button Margin="2,2,5,2" Content="Dial" Width="60" Style="{StaticResource MyButtonTheme}" Command="{Binding OnDialPressed}"/>-->
-                            <Button Margin="400,2,5,2" Content="Clear logs" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnClearLogsPressed}"/>
+                            <Button Margin="10,2,5,1" Content="Save to agenda" Width="100" Height="25" Style="{StaticResource MyButtonTheme}" Command="{Binding OnSaveToAgendaPressed}"/>
+                            <Button Margin="300,2,5,2" Content="Clear logs" Width="100" Style="{StaticResource MyButtonTheme}" Command="{Binding OnClearLogsPressed}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>

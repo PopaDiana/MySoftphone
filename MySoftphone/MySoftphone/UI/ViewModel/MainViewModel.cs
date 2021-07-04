@@ -12,6 +12,8 @@ namespace MySoftphone.UI.ViewModel
 
         private RelayCommand someCommand;
 
+        private string userName;
+
         #endregion Private fields
 
         #region Properties
@@ -30,24 +32,24 @@ namespace MySoftphone.UI.ViewModel
             }
         }
 
+        public string UserName
+        {
+            get
+            {
+                return this.userName;
+            }
+            set
+            {
+                this.userName = value;
+                OnPropertyChanged("UserName");
+            }
+        }
+
         public SoftphoneManager SoftphoneManager { get; set; }
 
         public RelayCommand SipRegViewCommand { get; set; }
 
         public RelayCommand AudioCallViewCommand { get; set; }
-
-        public RelayCommand SomeCommand
-        {
-            get
-            {
-                if (someCommand == null)
-                {
-                    someCommand = new RelayCommand(param => this.DragWindowOnMouseDrag(), null);
-                }
-
-                return someCommand;
-            }
-        }
 
         #endregion Properties
 
@@ -69,17 +71,17 @@ namespace MySoftphone.UI.ViewModel
             {
                 CurrentView = AudioCallVM;
             });
+
+            if(this.SoftphoneManager.RegisteredSIPAccounts.Count > 0)
+            {
+                this.UserName = this.SoftphoneManager.SIPAccounts.GetSipAccounts()[0].DisplayName;
+            }
+            else
+            {
+                this.UserName = String.Empty;
+            }
         }
 
         #endregion Constructor
-
-        #region Private methods
-
-        private void DragWindowOnMouseDrag()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion Private methods
     }
 }
